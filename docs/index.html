@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ราคาก๊าซธรรมชาติ 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A2429; --ink2:#16434B; --paper:#E9EDEC; --card:#FFFFFF;
+  --firm:#0E6E7C; --firm-soft:#0E6E7C1A; --proj:#A8722A; --proj-soft:#A8722A14;
+  --line:#CBD6D5; --muted:#5E7276; --hair:#DDE5E4;
+  --r:2px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans Thai","IBM Plex Sans",system-ui,sans-serif;
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.cond{font-family:"IBM Plex Sans Condensed","IBM Plex Sans Thai",sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:2px solid var(--firm);outline-offset:2px}
+
+/* ---------- gate ---------- */
+#gate{position:fixed;inset:0;background:var(--ink);color:#DCE8E7;display:flex;
+  align-items:center;justify-content:center;z-index:99;padding:24px}
+#gate .box{width:100%;max-width:380px}
+#gate .mark{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.22em;
+  color:#6FA3A8;text-transform:uppercase;margin-bottom:28px}
+#gate h1{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:26px;font-weight:600;
+  margin:0 0 6px;letter-spacing:-.01em}
+#gate p{margin:0 0 22px;font-size:13.5px;color:#8FB3B6}
+#gate .field{display:flex;gap:8px}
+#gate input{flex:1;min-width:0;background:transparent;border:1px solid #2C5A61;color:#EAF2F1;
+  padding:11px 13px;border-radius:var(--r);font-size:15px;font-family:"IBM Plex Mono",monospace}
+#gate input:focus{border-color:#6FA3A8;outline:none}
+#gate button{background:#6FA3A8;color:var(--ink);border:0;padding:11px 20px;border-radius:var(--r);
+  font-family:"IBM Plex Sans Thai",sans-serif;font-weight:600;font-size:14px;cursor:pointer}
+#gate button:hover{background:#87BCC0}
+#gate button:disabled{opacity:.5;cursor:default}
+#gate .err{color:#E5A05E;font-size:13px;margin-top:12px;min-height:19px}
+
+/* ---------- header ---------- */
+header{border-bottom:1px solid var(--line);background:var(--card)}
+.hd{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;
+  padding:26px 0 20px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+h1{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:31px;font-weight:600;
+  margin:0;letter-spacing:-.015em;line-height:1.1}
+.asof{text-align:right;font-size:12.5px;color:var(--muted)}
+.asof b{display:block;color:var(--ink);font-weight:600;font-size:14px}
+
+/* ---------- tabs ---------- */
+nav{background:var(--card);border-bottom:1px solid var(--line);overflow-x:auto}
+nav .row{display:flex;gap:2px;min-width:max-content}
+nav button{background:none;border:0;border-bottom:2px solid transparent;padding:11px 15px 10px;
+  cursor:pointer;font-family:"IBM Plex Sans Thai",sans-serif;font-size:14px;font-weight:500;
+  color:var(--muted);white-space:nowrap}
+nav button small{display:block;font-size:11px;font-weight:400;opacity:.75}
+nav button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--firm)}
+nav button:hover{color:var(--ink)}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin:26px 0 0}
+.stat{background:var(--card);padding:14px 16px}
+.stat .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted)}
+.stat .v{font-family:"IBM Plex Mono",monospace;font-size:23px;font-weight:500;margin-top:3px;
+  letter-spacing:-.02em}
+.stat .s{font-size:11.5px;color:var(--muted)}
+
+/* ---------- controls ---------- */
+.ctl{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:22px 0 8px}
+.seg{display:flex;border:1px solid var(--line);background:var(--card)}
+.seg button{background:none;border:0;padding:7px 13px;cursor:pointer;font-size:13px;
+  font-family:"IBM Plex Mono",monospace;color:var(--muted);border-right:1px solid var(--hair)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.legend{display:flex;gap:16px;font-size:12.5px;color:var(--muted);margin-left:auto}
+.legend span{display:flex;align-items:center;gap:6px}
+.swatch{width:14px;height:3px;background:var(--firm)}
+.swatch.p{background:repeating-linear-gradient(90deg,var(--proj) 0 4px,transparent 4px 7px)}
+label.chk{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);cursor:pointer}
+
+/* ---------- chart ---------- */
+.chartbox{background:var(--card);border:1px solid var(--line);padding:16px 8px 8px;margin-top:10px}
+svg{display:block;width:100%;height:auto}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;padding:7px 10px;
+  font-size:12px;line-height:1.45;border-radius:var(--r);opacity:0;transition:opacity .12s;z-index:50;
+  font-family:"IBM Plex Mono",monospace;white-space:nowrap}
+
+/* ---------- table ---------- */
+.tablebox{margin:26px 0 0;background:var(--card);border:1px solid var(--line);overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:max-content;font-size:13.5px}
+table.cogen{width:auto;min-width:520px}
+table.cogen th:not(.m),table.cogen td:not(.m){min-width:120px}
+th,td{padding:8px 14px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--hair)}
+thead th{position:sticky;top:0;background:var(--card);font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;
+  border-bottom:1px solid var(--line);text-align:right;z-index:2}
+thead th.grp{text-align:center;border-left:1px solid var(--hair);color:var(--ink);font-weight:600}
+th.m,td.m{text-align:left;position:sticky;left:0;background:var(--card);z-index:1;
+  font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:600}
+tbody tr.proj td{background:var(--proj-soft)}
+tbody tr.proj td.m{background:linear-gradient(var(--proj-soft),var(--proj-soft)),var(--card)}
+tbody tr:hover td{background:#F4F8F7}
+td.price{font-family:"IBM Plex Mono",monospace;font-weight:500;color:var(--ink)}
+td.sub{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:12.5px}
+tr.seam td{border-bottom:2px dashed var(--proj)}
+.tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;
+  padding:1px 5px;border:1px solid currentColor;vertical-align:1px;margin-left:7px;font-weight:400}
+.tag.a{color:var(--firm)} .tag.f{color:var(--proj)}
+
+/* ---------- footer ---------- */
+footer{margin:34px 0 0;border-top:1px solid var(--line);padding:20px 0 44px;
+  font-size:12.5px;color:var(--muted)}
+footer ul{margin:8px 0 0;padding-left:18px} footer li{margin:3px 0;overflow-wrap:anywhere}
+.hidden{display:none !important}
+@media (max-width:720px){
+  h1{font-size:23px}
+  .hd{flex-direction:column;align-items:flex-start;gap:10px;padding:20px 0 16px}
+  .asof{text-align:left;display:flex;gap:10px;align-items:baseline}
+  .asof b{font-size:13px}
+  .chartbox{padding:10px 4px 4px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .legend{margin-left:0;width:100%}
+  .stat .v{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="box">
+    <div class="mark">PTTNGD</div>
+    <h1>ราคาก๊าซธรรมชาติ 2026</h1>
+    <p>กรอกรหัสผ่านที่ได้รับจากเจ้าหน้าที่การตลาดเพื่อเปิดดูข้อมูล</p>
+    <div class="field">
+      <input id="pw" type="password" placeholder="รหัสผ่าน" autocomplete="off" spellcheck="false">
+      <button id="go">เปิดดู</button>
+    </div>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <header><div class="wrap hd">
+    <div>
+      <div class="eyebrow" id="eyebrow"></div>
+      <h1 id="title"></h1>
+    </div>
+    <div class="asof"><b id="asof"></b><span id="unit"></span></div>
+  </div></header>
+
+  <nav><div class="wrap row" id="tabs" role="tablist"></div></nav>
+
+  <div class="wrap">
+    <div class="stats" id="stats"></div>
+
+    <div class="ctl">
+      <div class="seg" id="blocksel"></div>
+      <label class="chk hidden" id="snwrap"><input type="checkbox" id="showsn"> แสดงค่า Sn ในตาราง</label>
+      <div class="legend">
+        <span><i class="swatch"></i> ราคาจริง</span>
+        <span><i class="swatch p"></i> ประมาณการ</span>
+      </div>
+    </div>
+
+    <div class="chartbox"><svg id="chart" viewBox="0 0 760 280" role="img" aria-label="กราฟราคาก๊าซรายเดือน"></svg></div>
+
+    <div class="tablebox"><table id="tbl"></table></div>
+
+    <footer>
+      <b>หมายเหตุ</b>
+      <ul>
+        <li>ราคาทั้งหมดเป็นหน่วย บาท/ล้านบีทียู (THB/MMBTU) ยังไม่รวมภาษีมูลค่าเพิ่ม</li>
+        <li><b>ราคาจริง</b> คือเดือนที่ทราบค่าอ้างอิงครบแล้ว &nbsp;<b>ประมาณการ</b> คือเดือนที่ยังใช้สมมติฐานคาดการณ์ ตัวเลขอาจเปลี่ยนแปลงได้</li>
+        <li>ข้อมูลนี้ใช้เพื่อการวางแผนเบื้องต้นเท่านั้น ราคาที่เรียกเก็บจริงเป็นไปตามที่ระบุในสัญญาซื้อขายก๊าซธรรมชาติ</li>
+        <li id="src"></li>
+      </ul>
+    </footer>
+  </div>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<script>
+const ENC = {"salt": "NyKGYYVCGd9/2a7poPL4Tw==", "iter": 250000, "groups": {"cogen_m8": {"iv": "UsB3hYe4OFqbylqm", "data": "DeANooC6m1EjPtV2R1iKjw5M3dZkebyN45w7KTIv6CP+r/oZtBn4o7f5AUhjXxFb564kvyNWbK61RdSdEeOj3TwHvFnOAYBcojIGaJuLIP8FiBFHtxUqY4GpweZSYRsSeEy/jxRyCLQjtOunalMiX1+ItsHX2WCX7lRHs38+GVzv/9iTQs+Eh5Lh6iSeqnS5jaWTB4+pKLyqNSYJhcWkWynEDlbOtdiVb6bw4yV7x8ualEOQHxt8BbQD38JH14EqTZ3k6KuQjyt/ajaGep8MxUFOYfoMH94m+CCVqGijzlmjMss6XeCavRGZIYklefCq42/mGTxvKAEd4q5QfmzbsazSo9q61z5TlAjqNQk2VzAPHboIP+MQp+m26TijlKrjlvfGPjI5Rtk0nedQSBWTzYVRtFHGeymsnyeMFtPFfezEzYESEpxK/1pGSxxowR5vRnKUaWZ1TM0RVXtFDtbhnKUYD4rFjyROYCgV77mCSgzKYJ9CIZVUSNrduqFbAFYu6t4wtzFmInvBq6bN2HQtJgOwkrHTWpsfHO8SUd1MbV0zMdemVY11y/xZPIhbbrMRbDgUVpS67TvC7NByOqcgQl7GmA6xaRtBhJr/+ThYQHzyuPKbAK6gYwl9wkfA8nefyiIoA9vyQNgz5/FFzL8a/ow5a04nFmJQ9zI1xqxORXBjl4Sf0Ir+gWG2QVJhgYbFZlyogOpTlQ/DA3kSAFEY7nd79IThSmhwm7bGKMpNQCqaHgXaTEcy4p0qFR82CZn31+w/qyS9BiAzvtO1EGhxOS0R3dRu3s8W1yWRdLq/Y8/dfJSxC7kjeGtGzSoipeQNdjoY0IFYs9PskzG3UukMbQcG2quRqCpd8poauoa//GP7W1O5o1fZYfoQ0PzImdEkIEJPzV0kGeDpLYndptobZj8iHjXU6sxavBUFUcwSHBn7+eQEKHXKVqkNp0gjQ9HpopmSsDBrqeYx6KjyxcKCCl6yWq2aNixgIpuNkxbULONRk6fGpXM9zPzBZJi7s1rNhK3BEgXb/Tjx8uy2q9y5buDVnjHEsO17YlgCYx31HpoCJeFzdjL2+XZlpQQpdup+OGiMMgaaKki/hRwEJH+VCGZWSMjFWt4YQr1KliHRTMC9GjmTjxGYy+X+eU9oypmakc9t9i8XPIWaYOpKKMdEJECccLWSNdRBpjjHGhK5HedaVgA11tIRXtUnXTh5ILqag0LpvCY4IE3eJ0vGAG05Z14F8E0Xm7aJlstV5aMIgiqE38joN6mscoqijP8PhlqURWTQENnLubAByWC6CnMC853Qrvk5ruFV5V7Vzew37YIssh4="}, "cogen_p3": {"iv": "Qr7EyTvz6zsiJ8cG", "data": "0BkUoip7n9zwauUi+nWSlK6nPrEWgwAXSu7OCocHMDOOkKkNTMmU/kN7huNdqtvGigSkH7R4kRNl2gwjrw2TBd7uKATdwSl4el30VuWOxRwTT/NXo2NR1OwlyzMdYuU2jbQC0VNf89qbo17UdZns9HFSTYWQSLqBBQ/SypD0Q46mkzgVd7XECzxatqc6Fi0txL032e1z7dXI80Pwq6HjrOQErYMFhDZ8PGHr3APWpR7LcM7YsgoMiviFBSyJ/H+34zLJgASfNDuERS2cP6/R7XXfE4M9ISfO5N7Ma7XyRZmdy9nJTQ5jFJdx7jLlgh8aR4ZFbudT/fVceZ3PzEz5nj69n+PUR7qwITI0Ayl2AFmPGPFkP+QpLtuiujz+L2NnudgxXpYUFEY1HeBxTIkoVl03ndg4oh5lXzvUs+X1TOZtzfG466jk6N9cI+NWK2swjBb0s861WD4W1mPqhzVDnals0YtEjPBN54HmSmqT5YnlYUuqe468kmOxq9hTr4Lhafar+p3CFJOIiWht5uGJ133GxGV7Q1ha+rEe117uNEdYBrx6fz7DmBqaFk2fG982M8BgqsliqlUfgYSIBNDKKdHtShIO/WT/lYrqONP1T6Crg4VQBrmZ+VI4KD7VKdREvmVuJ8qKNyAJKdguro7y0tYisyQojecTFiCfK0JZ7OHuRqP1uTOU8DTVtiLaS6B2HgZWAMuQl8E+3E64MJfacToEEymR8or7v3hUDS1WSYDi/2ChfvfXdT4gPz5RFEtBL1OYuIrlNBV8HCX4sSgrey82U8xqo8WZWENuDYUpO/UL02rAmPkPGERp3NM5BfhqFeeEqvrhUi4YcCENZqMSx7zVl2QxXiROukUvR99NU3+WClILuhkhPwEHF1wMYGAsjYKGGWiITPPtDE7XGu/RuNJFWnkZmRnjkYUxgi4Njf7wyckl5+9r41bjryrvd4uB+f5liAPkpGKErHnBEW0cA3T4nmkCAb2E98fJTBHLzMFXXGCx1U/GmImEaRjlC2XpbUerg1IATwsPGZOnmoq0mV52r4LOI0X5t+am5HrMy/lNVjyOT6cLMCLjo6yMs2rEWRA5+o2wuWIO6LTOMKSrearnknTaMs+bPPX2cNPdSaSw9N/u+m7mGVtvzsPwfyrOilazYNmIAdQwWS4A8snqgE7N6H4ivoVKd3D8nJQ8mz+dmQozT/JQYQ3l6JKzJNzUch019XFepHYdn+RfVl3CU4W4JKgdROWLq+fifdA9pEQ/inLR2K7X2n9ZD/3xpwe4hpMuH8X52zXH2o5+5vPz2NWxsUQGhAmt0aX+L0WoVxzIPw=="}, "ngd_fo": {"iv": "uoaSY02vS0FKt44F", "data": "NO6zBq6+2NTdea2fkBlIoAHdOEgPMwbzpvr417xSOBYltSOUFoQsvJ831iNuOkf35b4Mt9SRj5NTxrC38bmLzbrHKxj9uM/KYds2uTy9rwA/+wMfawZh2i3tLUHnCuFWCj0DTI5rO+lMez79sOzrHB1vetNtPRoU7B/BIGSim0xdig4gd7911YsKN0heIcpmqQT4PllGDl4UDYSxgm2XmPrT4WKICb5/YZTMqsXoMnC6Z+jHWhAuhB4muBnHcPaVk7O+I4+tuuTjBUaL+XYgBwWAOM91epTBO4wZfp3UDinA4cdO+XWv3XSBbrIAvsJxLoSPTPvUWjFNcAxD+BQkKmHW/FzWVpdOtX1LfI/nahnoRp0XxnFDL84IDbIOJcjsAozeGs5pmMc11UFBs4t9NdJ4tjwnBZFOGHE+wuNg5Wvpl7qrHJchXGSTxjreCyUClYBasR7VISU/U1yLyhMTWmim+ZvsCH+a726UruqbOBWRYNIatD7nBzo8hGEbxcCp3/ET2C14S2816XgPunWS6XUPLiKEMdCFx4j/JLWUsFrNAfOBHsyqXp54lm6gw6+5RjDiE9epfGOexiYh1dfvMbpYiv6QQcVNM1HoXv8dEG+As0DGMC3OujIODBDR+WDKyaKAtDLLmPVoaykwHxnG+cKPEAfV7eEjjSrgTL9w721Ij9tg5kOWjFomTkkzvXi0CFP1ZC9paeU68dSaLI5A/NOZijYAKC1KRrQgKE5/ciagtVGIK693DI+q2ykzTJnnaShvSXzbZGK/LANcvRnvA1XNzbRJ7bQBs/o0AnCJC7PQwExCJe9xRERHC5BDP7bEcJhD59G9ahE+mKkzIMsayPnHLpeWA2f5w95mhyhbmlRZlBopGb4CEuH4SGgaUBgp6kyFwv6/bVeCvDjihsxn099ADfoyhzj/7HqyRn6crsuI+X65fii96Pv7c7ZU27u2SMP9fA/PwoS2o1UB5CzVLppacPBNJG9qzBMKx0znN0D4dwofr+c2QtXNpe6UvTQdzkzH3jvAxijTccmsCIeax2oP4k2YxUxL5DSw40LJe8sICjL/wQx9c2JKWw83SQ6Uwymy+VZYxF2/ScsfbwVPJklpFv8Tg/cW7ORnMToEoaG4rByvWtmzzmOWEXW8Vwa38wooQ1NGSeDHti1dNajff9/sJD4qLx477QB15ZDir2itocrzy4RonFdvYWcrFf+iH5Us1gwb2L+latdFul8lsvUugVFRP2N74G70QUd5pAdqdjzzodD4TddiO29vrbOoOI0TYIFZ1ZiUHU37erV7w9B3EWj4TTp7gG4dBVIoLrYqOz0SzCA1/XUpeMS6bOshc8fghSq9lzdOlH2ru6OzHNfrjKgnphgkQu2fvoRdVZ3J2pOkQziRkLIIhqkvfvHdTKE0J5ow+WEuwQ0h4bhdLTdys8A2EsUChp5AqyvgexY9F+tVgCcY4HvuDv+5wl2tA1Gz8pbDEzd1k59OnYVatnGgAAnSWAthE+D1BJQ7F+Vu92BnB3iI/iR+1TPPaOSdJ3rrRB7SeCGQFqvqsGmT8uqDEvLewPs7R9WruPFWmn1/p4QqEAzjBwT34pSoZlm5Lhk7KgaPxYho0XwOnEHm+W8mDMevfKenFTDtj1Mu7HZFceO3Y2rZuPYv9y1J/wqxaj2aPBhHQuvrVtrUIpvlwwbEu+kWMx7bm+bHcnxyYgZtL56ap1MpU+2motZZyQuSLPNEB7lTaWVwzZugw0lh0yQSWO3Ds9wg33jQE+hBGONdJHuw7HuGj8IhNnZSYlJw6RTU9SFfkPKFQ/44PSJ9/AcD7nsmtLeZMyeRJf8kcgR+G2aMJ44uBKXA0V+zA8rJJYf6g4uMobAOcXpgJFiyQuh9vwFKPm2rPKhmp2xeBF8FPAUzc22AX9xZ/BbtFAPp9P+8n9xi+B2QL4nW8tOrg2MiFrEyTvb3XD8Zt2Sipzt61MYKOTEFz7/MrmlFQsx1+BQkE5clwkMfs73V2OY1HeytIamRLQwu5O6BemJtzR0jsfKx1nkwAj41UC9Ngdac7wIR4IahaInaZTAcZOyMc+tfU08+BvLFEeT4Gm/9GWL8TPnBVJffQOsD0IPiyQyE3+mwSpduSYXL8tv8fomUofV+Hz92BbqIyNOGup2KtCdvfp8ci1Xw9Ew5P6k0g55WCcTCfxwmd2sb+S7UYIC+v6rVoF4C2yc7djDUVyQ2koZxyGCxNjSvEj8XHjyLzWbbWBwonKopg2vYNTpB/kiV9qkV8xhbAz8MHbrH9lYIVb7ysxbACepBPAIzst41bHVRg6llrpnh53HSYqHGaSJxM05ryfORGoFI2hEo9M6quW5vklOdH1NQWSsa838W6F0r4P2FvQRlksLacR5glF3FukDgs+rILqh+AamxXBdoB26AlzYjbcCcCWG/IMFfLwpeJZNa+UoQ6HE2v7IfsbSRsYltQvM3gzwsgiwuRltj8nrL3y8FCnAz6ms3nMlZI+WPUs/Eb37aKcllcc02CrhKCPLiZa5wC/xvqf939GziMBVEPv4WfPxeQXsWkcsy+R0xf/Pt47KBh1HcNHd8KXD1ELyPDCYY/HBle1FWcThrV+NtyECCQNwO9i2HW2wDNSb6Msd7C4q63sovYs6cynT9rP/JLa+efrs+WBILGoxZM0y98BIHnTaREZ9atT+UDCXNSnv+lxRMP4URqcPaJkzfXj/txmd7YlnU9YiC8QoERPwmRACqqiPTzkgkzkPOa7L8T8MWPyocBuHqqoxGB/WDQRNibAtKGdBctVrWrvlkSgt4TLVXfQ49W2tbPghyu5FgYz88xXPa1r+YYouZV9ELMyxeawPY1DIZ0ghkxJNoGdKFRuaVTcVeDNF4lGC92tuK3ApkeBO0SWB8UMijkXcxfYSGMuNSAm4lnPPB9LVikmDUVKaK4lwwUVuqXgKk4ji+h2/0ieF1cD3i6E9VS+Ks1cY103KdjQ/abkuwswBr8Cf95Ev/7WHe0AnIqAKHwU0zFZkGcY6UdONlZlYbpltCfp+KQc59aEjxztwZw3XptwtpWyKyWOaVoCvvS79a1PlBY+EKF1ezQZDWX9iI4dsgaGjA1BLgETyb6swqPjn5+CZt2R/8EBQO7pbljucneyhgr3yVmKWi6z3Ku/0L/CtoG67mkyA/d8c/LnkZww+uRkbuZwKfEmNN76+kepHQysaZT8hf4jj5RLHfO8RYWf1H4Xe7Nag+53s2KnnzTYg3EkUcouOyHRVt2U/3G7xQvCipaEHkSKQ614YSJVAOGuQ950d7dpnzndMxscuQPtlRt9zQjfDfuJQyq3XMkNM91nQmBT5brStFrOHHlgBAnuypQaVZtseCWprNZQw3LUdaua2X2meglvGbQL5P5L9zinbYZ9zrxdXUTqKE0vjOmWYoXvbew1xhT4h0HPhcie7fBar9Acjsxg2Ops9vdSWPmvc//XtSfx08WK3ESx4II2kgNEFWhJCKc9J/dhhXPjZ1XqRH0zGcqm4RIozmo0tvVdr4ivP2AZyQWNmE2t155+eMqv8I8DCTC+YqhkkA2nBjPjVexmw5F3K0rNFOdNIUE0smOEqkWFvCWaqN1a9NZTBH7nDF23+pEwC1anP+yCULOApORxAbhks+9rs5KNnI5efjvRvQ/nI3Hdk5gGE+iqhhkwBifH9Z+S431TA5HVL6FYVvQZwtSnjMgAT22vkpmXN10Cwp1MfVMkO181i+sqKuMpdAQ4vCfP3J5FGa8a9X5newgQ4PGI+yZTIkEZE39WUMkBBysfn0K1ruX5ojgaa4CfsczqT/YRezrO4SBjF6QD+VxX/NZ0/Opat+aBYA48z9CEDIDbWdHhPpA3JAg0NhRrxSQIF3LIXA6b0ywY8UvW3xukttsmUvZQCwgcbJp9AcNVhgL+NANJrF9PANa66Ty0xo0RyGd4Cku1EDXzYRRWFq4OId8woxzRqPfSVJ84nsB+18DCksUsSBx8Qnt4tCAqx6WIR1xVQVslU19eaSaQFzokLLxT6wymHupovdM0yccC+6Biyfw9aUu9fWiY1zEvWIZiNn034NlvPk6W1zx2QmESRFOKu4p+UbTOtYP7mkcGRKy860p9C1A0rEGCSnqQlLsu6k3i8mRMgtd4vmoF0PFEfURYLCe0pqJowRZkjS10M84xXbhSFzd3WNdZLdw9lyKx+YIPjDmmsM7PNE3pRwVlzp/Fdech1hAYvGy4v5no/EJlcZImUIGgS1nc8ELaxRKUmgwT0N/HLkV0BDqXd+tshP+ebzD5Sd5AvLTGQuepN1p2HQGZxvBdYYGcMk+s5qMsydXKhGLnxiqDDu90VHypAgenznbdKYxBGlobs2nWgEo5XZhyQsMoz6fBHS/qp7ZPVk6Fz8y5aOiSzDuhqllc29lMjph8Ui4YhO5II/oTCR+0eJBgjUI7qfeG4vo+oDfSaYtUl8RHh86+UR415A/xN0m2tLohPmo8ffoGNeazlx3IO0wmYrH7IG/7pPkFS16RvjT/YLeussVkmYT/41P3WXjatHHYLaT9Sldux15W7R4hheapzMmpoyKOqBxMir6WA6IVs0ZmF9q/F2i9ltmezsgRS+XGhUkYdLQAWOd+gEu5hxfTSo+btObNFJLKxdXLVxEMfukAiAGVNeJmayqfxDZcD/0zx0mWK4+e2JZc+FyIfYmplff3MHPDFXRQQBvL63cNKteIF/TnGIOkbozfH++gqfQLMbePRlHlhgIYKCEe+WAGQkE9VrXzKnDqtPp/5Nl5gSZ627N+0Opl2X8R4ww8fF4Wg6qoy0cypSsCxcFBTra8syUKcByswjrk0lB3RL"}, "ngd_lpg": {"iv": "wV8jYu9w4KVBBjPj", "data": "kZWYX+lsphLRJRd39SEs1kiIEZfE9dbCN1optmnxGxIreAnsb86v9SXI7sza8wnfRms3UKMCvdg/UMb6l5DlI4mohBRYBGDRL1/koZr4Hvm0Lra98kxFmLGLeg3KcXqLuVm4HfSXPjIS7IwaIhciqowlwwxuLp5fu2jhGTLwcUX/c9nsnuqJV1Eu798TOpiyfd5pyW2eVXZ+6tUIUQV6hkP1HkJtQaD2dwH8rS/ltK49+peWOKzTTByl6/6txyl69ij2P5HKgEJo1rmFyo/MWvFf4UBIUcFW1+WnjbDAgrottL4PFowRO1FNpTVGqCHjb5AMwOe6UleTQbIF0khnCUjz41ZfIB74TVwyutcOG/zhwjjplei3rozFsMRQrTvSJzv7jDjDlurrc1PhD6k0iFIx+TLfHr37fUESY1ZP5a9FKoEzPkkNiqTQghivMamaKtBhQZyPm+FzmIH0ktMoNauRmZ1hV8aWAlRhWQbsbTU3truIJHCb62jpYkltLW2VSDsH9MW1cJVgtvKVoCgWEA2icHIPecl9OM1spixZb+vB++Cl+R1nybjKx0TT4Jy2DnERrWGbCZrM1nvJ5ImneVHBK51Ojgj4JdmhQEsenIQnfi41APx5OeN+em31fMRJMEcmLEbE7b4aW6dLu0RcaL7e13c/pTpYi+7yVu5y39te8KOs9D/FIQG5wr5y9IUxvHD4zQTiBTsXJUIkxtkB4U2X5H5B9yRvPQXaYQMHO9wyRE2eCbkdUk3ksntSK2gNgto72/0q5cSsqS4nOaXT7iozI0HJvfMGpE/OC8hsFg/5HZ1DKwUBR3TKtkwiO0F1bRANkoA50Gq+rGO231CIuW/hKTYxC4HD8lykxNOLEZZQDyWTJTf+9+WehEZ4F9JIqdjfgY/MX21OmN1POimyr1fe4iyFRTku9efIa27bdI3o621m96hyBiWfZGEA75GyT31VPUh7O3Yz0+2FL3ljmZnmg8TTMgPA5pHowLqj5f0tmn+DdVSHEBsKdIyvcT7Ki4Z5D/7JB2XsDEk9gYARpbKIhKRg3AOcmAKo/ywCvuwBPMzYvNEiY2MAsGpxXQotd4ei2+W/L2moIJReg9EfNgsXdxSLGu8JJiKI5ZCfocRnattykbUrBOVDtgNttps6apLs38R7FdZLzF+7GQlJYEX49uHrn9E0vv5mGRasdgwdyoULia1SLe9sFlWUZNEK8eYZ906YogJgwxlo0e3Wec/2O7Kao/vGKxO88B14Jb1aalssAmGMYRLFn8vKGrii/wMlPQI1QAODN7bbRlXkxWgeNjLMhtkyInqaxjftiQWsFX64boTzonf0ndc55rJ6XbzSpm95r91RcDBvnP16RNOXGni87JJQgr8Q01L3hWSSByA/MscuwQTQM47ZVdMwuHMOhew0k0zDvd0aI+19ewTyWlXRbvSFF5wOaCEMvurEPVCMrvjUxCC8rYPD4TxPf8OjfXGVl2tlemd4UCh2lPGgdoEavci1LzdJPJj6BnfdtKu4ujAUWoaaqUPbODknLIwvOTwhJy5UMvbU8P55oypd8e8DWFgRQq94G0bbuJoHPlvi08UHP83kMt6yVzHFdFgzaC1B7bHniEBQ2tlb5cBD18rBZKuWGQ/2b/qGRYsnWYdVlWwshr9xJLO5hL04YhjNxrE2yw9tRftbWYE7m0UFhi3ia6e1DgTqKLGskp85ltbju+HuBX4he0j+1PEMjoVhrpUfDlyJjdvwtEWsqQ20y4AMFAFmO7tBGA8JowjnmXhErB/ZVC7sy06irfDWGFWUvP/QQx2be6dEXcrGtmY3fGVuMyhK7UydfNelsadOwUAGDHm9RGzO7ry7+2oOzf4KjiWq+BEwp8BSaJ6obmAQZfuKTvXgicT/uX5PKC/OmJoBTlyuaut9Gbv287t2RuGUJObHWPtfWHlVpgXAfwEUsKZkgug1BX1KvcFBDbTPTWMrsObWMBQ4xPTNsq4lpDo/E3T6zTokKH/bgtlZ0AFQgnyGcSbU1uMr7l9pTbM2nWji0HdHpp5HEA4fCmqPLI118Ymhj1yqeBBzCqE5kMGWBY80pxlqpd157P0PcNUE7YzDOA/9m00PZLJuxyKmtx7By0pVNOeXaXxD46u6wytKFOtfTZA/2UrtEgMLiY+YlQj1/F6+peAxrtttPw+7XAe/Ayb25sV4BQDieQCzI25zp4SjZyAVPxnRwRQCKNI7fVQrOT4kp3fbncvn78/VY8FfyCyX03KKbV5MlYe/CcLmz/CuG6qgEWTlvqoJLDHIw8LeLLVHLOjnl5QsZyLuFxNYWeOiJvinfjwoiaToPZALKplzrTCKsVwRZOaku5LzA4NnL2XWvUoG7OQA3lj4WyF0e1dvwkhXYFpG+WAqAL4cHAwqm2HI5BUwhyjS5nm4AqEMOLI3c26kT4nEIud1TMMvaTpcoe1+S8I97/e938lhv0n8x1kxjkBR2NwUZkV0Uo96fWrNg4jTA7fWCZsHZ5TCjOB5/P5MS2lwGUO30FsSNyOjPHeIkVdf3KF/wCprWKwIXdPN9TUoG0eQuKL7xRuL3IFafzwQgG+Wk6kZmdwkWGMRqL37gbBqPnRKVrY1x/+Jr2mX4WNFl+fyEBgCj3tAa9b1zuDeoZPuZ9p4aTNviURHzPCbHB2jyEgsQIY0tvt/gKLwqyLuFGPP12fSHvwPEEhIozHbuQCAWcYPasGLdcy5YI4ZC0xJ2E6QSce5RiD0AGe9VU1Z0DeXIGH5TkjWV7prpAVkcIhutBV9nnkigxSXmtSe8ArVThS2Za/5ZMLIE+8TsKvCIbbRBp9MAKm1SlUFMOBV+UA19RbrxImAme1lpdrGTBAp5qF4QlUtHLg+JQKzrktF38jxZEEOPoPY7U0zIVwGYukMAe6EFrQzaXARiU9VYYpyePIzRrLW5bGQAsdddDKhY+W1JoGr7Na5OEXY/1/+ShZDU1B3TIpMXuKBCEZ3D4EuZI/lMRpnwRJ9F4fAhkTdnu+oj9Q5fQYwpc+q1BHrqh2LTXxrtxCHWyr6hJoMUc1iQ14Q0VOExXoRG8eI4fL/9zShx9SmapH6EaBWr15bvqHTn3JuvM5/CJ5Fd60/tx0jXdFOYVB0ZaCJu8O9HG+6H8BX+pW2i2NeRjPJqjzac6L57QHs27ydgrgODdyw3eJy4+z4XCp2u5VDVHa0WwYAL3NyBAU0uS4yarf8e3+OKiKRe/JbTvSlRobwvKjimyWejdHssihlXwNktPe0aR4o9NeIZjYANIjB76AboRK2qMcjP/w8ya0tsaa1RWJRhQtToyQrVxIZdoIUWoK2rnusBI/J+OW8IAWWuryKC8ugy0xBs2qxB42EoTIbKX2758UmEcGAWGPcl/+MKa6R8DbzgeEqb17pIgCXoU9CPUQFp97HwsrFUmImp8neaq7Yt+oyXWDCkl9qiKKPQIouMosi4d8N5woLTXi9swbRD0fqZm9MZyaKxesQ6b4eQwlS/tNVhOa3foB/g68jxj5gaQRDW2uwmOFjQXLmzy6g3+JgLxK/laVZUT4/jat4M5+SUoRiH7QwQy5P4xm6ARgvAk0lsYMqcPc5+NMfCIKMKRmksGk7VGDKPPHmCzf1IuTuipj5qLPJ/43OHxccK9lUWjmGH13AqwbytOaLkGO/6P/zU3mvhKJPYilLIoDE16Y+c9eds3C4cpXdq6Yqq+0nKUWvWcPjvcSNd9u3NnuJbyewPbgBeKt6FSS4sWxHSMEwKy/zPWOVluAsyunHMTVG7XolMCvBEAXes6AEKNV59TBRLMEOLKgJlI8Af5UlRFIol1uYplYtNJAUDyG495006I7jhCORqoK27jN0oS+ItLzn00RCZ5QtUl/VjuzxpF4gnQr/zUEIk2c3Bj8QSKBg+xYADWhFuw3n98XEFEFolQ3KSYFB4JpJAS1Fdq3fYlOIkVXRw9iffacG7Ir/RYoWZBbmFzkxgklxp28NBJ1atqV6q2us8ih8xhuXCGJH6JjPBK+AZEavvkGpxMDhltwjlKmp1wdE6053FQwZNeHu+xAAZTcvHFARI9oFp0rjNyxhoAklIGTUkmk4rWhzOmS81LK2O6sp4/x4T5p1zhX3qGRDUWebo8+wHJOn7+jT+wFw0yLw23UOycxZfDlwSAReTSGXWFcBRLX3Bv200oBieMXWaCG6VvMDFaBAxU7FL2a1sPh+rbIfZgIFVz7+PN+tq3KmuJPlRyXhVah7xizhVjx7amCkjnyiXrX5VBIk8Ch/6DoekDdDUdnNnCNG/Z6J78O+xil1emcA+hYGgsFhMioxhdXVktEaZDzY/h5GXijBYeMvkXFkTJbY030MbGkhtjLJiT+OlPmDv7LKXySx24K6Mr6s5uY8HlM93cg8jE+alA0rJ7Bj1HVsObYLkBc30YA8oQFXobpe074zCJ2FGk2rK8wAmouNbY7/uw+7FNgMmmfUUwS7MvE6RYwEkD2ztETGFNgyhs3fsGMrpHG1TkBP78ZYGBofIuzuEWCr/AztgwWPmrmmf/jv6G5R9f9kMW7v5r1ef4lgG06teXe7/matQphrWI05O5Rt7eU/rMN9/dUu7ri/pIW/i4XZjUpMXb2rcrpEDUm9ZBcV1xx6DUe8r67g17RprklPmaVwt3Lr82zAoSv2TIR9pNRC2gJLGDiBessEGxfIA46EygvbryE8GoVmREnNbhMosR1kddp0g4jg0Gl+NG/G4bowiCwxQBAef54APnta0q/wcAgsubKN+jxewH5boeYSePMj0NK3AhHKFrlvJU674XuaxBkdX6pTnMUQlteuika4Scq+hyI="}}, "profiles": [{"iv": "p+Faaz6jby5RLCa1", "data": "QE/mkdvYhXq2HkI+AbIrr4iJLDpRDwJ4VFLrFUEMEl441iV+TKRkonufw6T3uS1gamUIxjhLxTK9GBYt3gDX7ZT9jzc9CyGh0++zsHnIBBltwesM5+rRm6QRhpNuE1Eg/J6Yk6bm6iC3QkPX0dDhedFyZAAnm+qdXr3CCf7q4eVBV9m4apKhQYp47M7rL8U1MrDtDGyeO5FkVvTj43ZwHmuq22GSpUzmiO+XezzQyJnbh6WfHqAdo/+GKvNNgdMIrY9B4i3N95GQvgLHhJxnqvBes+JN5rgXrzI9JAZsTb3AiEV4XG4vIRwBBsCx1PA9YURQ+tNscgrzMtl3RDhhh4hMfNO9v8uMhZsNu2/0Ag=="}, {"iv": "J0cIiLJQe/b611yy", "data": "y+TXXM6YjyaphtYdyVHGhGOdUAG7aKMs8I/659BWL5yERWgZDlTuvho1NVKnGVDRiTtpiICmGnPzWBE4BWbsuKwtZUvM3POn+Uz7kaw0bhCDQjaXY1rdh5sXMSJmjn+9lIzrsQvuYkL5SmPd5PtqQopztlLdR170eyLo4CxqeCVedsQ34lz7Im6gCriiii/y78eR+Uws2eTJZ8vREw5fpFwJ1n3iCugI6EsP4GrEnU5SZKjYHxYENDRs2kVBkUghENTO20YiCMcxwxT6is+suwV6pvEeCYMEirnU/hi1FtfSNY/X+RwGYiMm7+gDSp+5E/+hzf7GU/5164DG+kd5tpoSrEecsWV6MSMcWtHpMZ2KzjTOmVwi9RQSq1aDQJ0jtM+XvTMLvdachQ=="}, {"iv": "cA1tVmXG93DhC+sK", "data": "l9jCCDdur+C76SgLDNkOGSl8UysvySw9NAexjxoyygPKIfR/djdgGtX0usJ2zJY7ZgAQ2huyNlfND17TcKGbpm72TFGMX75UOk9po3mJ3bCs8u52IuCqmSx+5f2QnTYuC9po+cK0a/oUnUCH8nDUnSq5ExTdRyB0kdXrlyQ3sfs5V+10T5lWvtP568esfWJpDh4M/TNDGZmdZAmttcWFNTo2FbO8tJUHw5KE2CgGgb/o5uku9GkbQw0wQNdTnFWIQuQJk/5+TKQErhFnbtkPS+dZbWTyeylXDy1ligZPjvRfNK8+hXWHd91CE1Im1I5m5USUdsAad2ZG18ayxBKNru5+Sa0K64QFN80Vf293xzvyQQ=="}, {"iv": "Qo862lD1zhYBa8B0", "data": "nkKUNXvLShCR0ZvgO6JB4Erz77lWinhXW3n9XutZY99MnrNCQ8TbJEnAMbQ84YV3XMUnYC51/n3K99UHcl6/copLLRJ1pIbWytLVUTnsan5EEW4X+smuVCdX+A93bk4kw32chH8FGntWaLErKifWKqRpTqRwq87rvcJ/StWnvHj72LOyrOKXr9WUy+5Vt90gTLm+ttASdUgh69G3SVz97zrRus11t9De/7bDEkMU9WsZPMO7BBnOtdwuYBQ97gR8N68umQRcCvUQbjpQBNlQXSikha7rTksMEM3GXTxhCqv79qP4D8e2YWLXLF0PNtFWzYNcUfn3H9BJl0Oc4kbI3J1psKn8swyTUdCzG73cfWb/0rBjQ2DKVPVU3kq4i3am3bIe2YiGbrRHfg=="}]};
+const MON = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const fmt = n => n == null ? "–" : n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+
+/* ---------- unlock: รหัสผ่านปลดล็อกเฉพาะกลุ่มที่มีสิทธิ์ ---------- */
+async function unlock(pw){
+  // 1) แปลงรหัสผ่านเป็นคีย์ (ครั้งเดียว ใช้ salt ร่วมทุก profile)
+  const kek = await crypto.subtle.deriveKey(
+    {name:"PBKDF2", salt:b64(ENC.salt), iterations:ENC.iter, hash:"SHA-256"},
+    await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]),
+    {name:"AES-GCM", length:256}, false, ["decrypt"]);
+
+  // 2) หาว่ารหัสนี้ตรงกับสิทธิ์ชุดไหน
+  let prof = null;
+  for(const p of ENC.profiles){
+    try{
+      prof = JSON.parse(new TextDecoder().decode(
+        await crypto.subtle.decrypt({name:"AES-GCM", iv:b64(p.iv)}, kek, b64(p.data))));
+      break;
+    }catch(e){ /* ไม่ใช่ชุดนี้ ลองชุดถัดไป */ }
+  }
+  if(!prof) throw new Error("no profile");
+
+  // 3) ถอดเฉพาะกลุ่มที่พวงกุญแจเปิดได้
+  const data = Object.assign({}, prof.meta, {profile: prof.label, groups: []});
+  for(const gid of prof.view){
+    const blob = ENC.groups[gid];
+    const gk = await crypto.subtle.importKey("raw", b64(prof.keys[gid]), "AES-GCM", false, ["decrypt"]);
+    data.groups.push(JSON.parse(new TextDecoder().decode(
+      await crypto.subtle.decrypt({name:"AES-GCM", iv:b64(blob.iv)}, gk, b64(blob.data)))));
+  }
+  return data;
+}
+
+const $ = id => document.getElementById(id);
+$("go").onclick = async () => {
+  const btn = $("go"), pw = $("pw").value;
+  if(!pw) return;
+  btn.disabled = true; btn.textContent = "กำลังเปิด…"; $("err").textContent = "";
+  await new Promise(r => setTimeout(r, 30));
+  try{ start(await unlock(pw)); }
+  catch(e){
+    $("err").textContent = "รหัสผ่านไม่ถูกต้อง ลองใหม่อีกครั้ง";
+    btn.disabled = false; btn.textContent = "เปิดดู"; $("pw").select();
+  }
+};
+$("pw").addEventListener("keydown", e => { if(e.key === "Enter") $("go").click(); });
+$("pw").focus();
+
+/* ---------- app ---------- */
+let D, gi = 0, bi = 0;
+
+function start(data){
+  D = data;
+  $("gate").remove(); $("app").classList.remove("hidden");
+  $("eyebrow").textContent = "ราคาขายก๊าซธรรมชาติ · ปี " + D.year
+    + (D.profile ? " · " + D.profile : "");
+  $("title").textContent = "แนวโน้มราคาก๊าซ " + D.year;
+  const d = new Date(D.as_of);
+  $("asof").textContent = "ข้อมูล ณ " + d.getDate() + " " + MON[d.getMonth()] + " " + (d.getFullYear()+543);
+  $("unit").textContent = D.unit;
+  $("src").textContent = "ที่มา: " + D.source_file;
+
+  $("tabs").innerHTML = D.groups.map((g,i) =>
+    `<button role="tab" aria-selected="${i===0}" data-i="${i}">${g.name}<small>${g.subtitle}</small></button>`).join("");
+  $("tabs").onclick = e => {
+    const b = e.target.closest("button"); if(!b) return;
+    gi = +b.dataset.i; bi = 0;
+    [...$("tabs").children].forEach((x,i) => x.setAttribute("aria-selected", i===gi));
+    render();
+  };
+  $("showsn").onchange = () => drawTable(D.groups[gi]);
+  if(D.groups.length === 1) document.querySelector("nav").classList.add("hidden");
+  render();
+}
+
+const series = g => g.months.map(m => ({
+  month: m.month, status: m.status, Cn: m.Cn,
+  Sn:    g.kind === "cogen" ? m.Sn    : m.blocks[bi].Sn,
+  price: g.kind === "cogen" ? m.price : m.blocks[bi].price
+}));
+
+function render(){
+  const g = D.groups[gi];
+  const isBlock = g.kind === "block";
+  $("blocksel").innerHTML = isBlock ? g.months[0].blocks.map((b,i) =>
+    `<button data-b="${i}" aria-pressed="${i===bi}">${b.label}</button>`).join("") : "";
+  $("blocksel").classList.toggle("hidden", !isBlock);
+  $("snwrap").classList.toggle("hidden", !isBlock);
+  $("blocksel").onclick = e => {
+    const b = e.target.closest("button"); if(!b) return;
+    bi = +b.dataset.b;
+    [...$("blocksel").children].forEach((x,i) => x.setAttribute("aria-pressed", i===bi));
+    drawStats(g); drawChart(g);
+  };
+  drawStats(g); drawChart(g); drawTable(g);
+}
+
+let rt; addEventListener("resize", () => { if(!D) return; clearTimeout(rt); rt = setTimeout(() => drawChart(D.groups[gi]), 180); });
+
+function drawStats(g){
+  const s = series(g), P = s.map(x => x.price);
+  const avg = P.reduce((a,b) => a+b, 0) / P.length;
+  const hi = s[P.indexOf(Math.max(...P))], lo = s[P.indexOf(Math.min(...P))];
+  const last = [...s].reverse().find(x => x.status === "actual");
+  const suffix = g.kind === "block" ? " · " + g.months[0].blocks[bi].label : "";
+  $("stats").innerHTML = [
+    ["เฉลี่ยทั้งปี", fmt(avg), D.year + suffix],
+    ["ราคาจริงล่าสุด", last ? fmt(last.price) : "–", last ? MON[last.month-1] + " " + D.year : "—"],
+    ["สูงสุด", fmt(hi.price), MON[hi.month-1] + (hi.status === "forecast" ? " (ประมาณการ)" : "")],
+    ["ต่ำสุด", fmt(lo.price), MON[lo.month-1] + (lo.status === "forecast" ? " (ประมาณการ)" : "")]
+  ].map(([k,v,sub]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`).join("");
+}
+
+/* ---------- chart: 12 เดือน + รอยต่อราคาจริง/ประมาณการ ---------- */
+function drawChart(g){
+  const sm = innerWidth < 720;
+  const s = series(g), W = sm?420:760, H = sm?300:280, L = sm?42:56, R = sm?10:16, T = 18, B = sm?42:34;
+  const FS = sm?12:10.5;
+  const iw = W-L-R, ih = H-T-B;
+  const vals = s.map(x => x.price);
+  let min = Math.min(...vals), max = Math.max(...vals);
+  const pad = (max-min || 10) * 0.18; min -= pad; max += pad;
+  const step = iw / 11;
+  const X = i => L + i*step;
+  const Y = v => T + ih - (v-min)/(max-min)*ih;
+  const nA = s.filter(x => x.status === "actual").length;
+
+  const ticks = 4, gd = [], yl = [];
+  for(let i=0;i<=ticks;i++){
+    const v = min + (max-min)*i/ticks, y = Y(v);
+    gd.push(`<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="var(--hair)"/>`);
+    yl.push(`<text x="${L-9}" y="${y+4}" text-anchor="end" font-size="${FS}" fill="var(--muted)" font-family="IBM Plex Mono">${Math.round(v)}</text>`);
+  }
+  const pt = i => `${X(i)},${Y(vals[i])}`;
+  const seg = (a,b) => s.slice(a,b).map((_,k) => pt(a+k)).join(" ");
+  const area = (a,b) => `${X(a)},${T+ih} ${seg(a,b)} ${X(b-1)},${T+ih}`;
+
+  let out = gd.join("") ;
+  if(nA > 0){
+    out += `<polygon points="${area(0,nA)}" fill="var(--firm)" opacity=".08"/>`;
+    out += `<polyline points="${seg(0,nA)}" fill="none" stroke="var(--firm)" stroke-width="2.2" stroke-linejoin="round"/>`;
+  }
+  if(nA < 12){
+    const a = Math.max(0, nA-1);
+    out += `<polygon points="${area(a,12)}" fill="var(--proj)" opacity=".08"/>`;
+    out += `<polyline points="${seg(a,12)}" fill="none" stroke="var(--proj)" stroke-width="2.2" stroke-dasharray="6 4" stroke-linejoin="round"/>`;
+  }
+  // รอยต่อ
+  if(nA > 0 && nA < 12){
+    const x = X(nA-1) + step/2;
+    out += `<line x1="${x}" y1="${T-6}" x2="${x}" y2="${T+ih}" stroke="var(--proj)" stroke-width="1" stroke-dasharray="3 3"/>`
+        +  `<text x="${x-6}" y="${T+4}" text-anchor="end" font-size="${sm?10:9.5}" letter-spacing="1.4" fill="var(--proj)" font-family="IBM Plex Mono">ประมาณการ →</text>`;
+  }
+  s.forEach((d,i) => {
+    const c = d.status === "actual" ? "var(--firm)" : "var(--proj)";
+    out += `<circle cx="${X(i)}" cy="${Y(d.price)}" r="3.4" fill="var(--card)" stroke="${c}" stroke-width="2"/>`
+        +  `<rect x="${X(i)-step/2}" y="${T}" width="${step}" height="${ih}" fill="transparent"
+             data-i="${i}" class="hit" style="cursor:crosshair"/>`;
+    out += `<text x="${X(i)}" y="${H-13}" text-anchor="middle" font-size="${FS}" fill="${d.status==="actual"?"var(--muted)":"var(--proj)"}" font-family="IBM Plex Mono" transform="${sm?`rotate(-45 ${X(i)} ${H-13})`:""}">${MON[d.month-1]}</text>`;
+  });
+  yl.forEach(t => out += t);
+  $("chart").setAttribute("viewBox", `0 0 ${W} ${H}`);
+  $("chart").innerHTML = out;
+
+  const tip = $("tip");
+  $("chart").onmousemove = e => {
+    const h = e.target.closest(".hit"); if(!h){ tip.style.opacity = 0; return; }
+    const d = s[+h.dataset.i];
+    tip.innerHTML = `${MON[d.month-1]} ${D.year} · ${d.status==="actual"?"ราคาจริง":"ประมาณการ"}<br>`
+      + `Cn ${fmt(d.Cn)} + Sn ${fmt(d.Sn)}<br><b>${fmt(d.price)} ${D.unit}</b>`;
+    tip.style.opacity = 1;
+    tip.style.left = Math.min(e.clientX+14, innerWidth-190) + "px";
+    tip.style.top = (e.clientY-56) + "px";
+  };
+  $("chart").onmouseleave = () => tip.style.opacity = 0;
+}
+
+/* ---------- table ---------- */
+function drawTable(g){
+  const nA = g.months.filter(m => m.status === "actual").length;
+  const sn = $("showsn").checked;
+  let head, body;
+
+  if(g.kind === "cogen"){
+    head = `<tr><th class="m">เดือน</th><th>Cn</th><th>Sn</th><th>ราคาก๊าซ</th></tr>`;
+    body = g.months.map((m,i) => row(m, i,
+      `<td class="sub">${fmt(m.Cn)}</td><td class="sub">${fmt(m.Sn)}</td><td class="price">${fmt(m.price)}</td>`)).join("");
+  }else{
+    const bl = g.months[0].blocks;
+    head = `<tr><th class="m" rowspan="2">เดือน</th><th rowspan="2">Cn</th>`
+      + bl.map(b => `<th class="grp" colspan="${sn?2:1}">${b.label}</th>`).join("") + `</tr><tr>`
+      + bl.map(() => (sn ? `<th>Sn</th>` : ``) + `<th>ราคาขาย</th>`).join("") + `</tr>`;
+    body = g.months.map((m,i) => row(m, i,
+      `<td class="sub">${fmt(m.Cn)}</td>` + m.blocks.map(b =>
+        (sn ? `<td class="sub">${fmt(b.Sn)}</td>` : ``) + `<td class="price">${fmt(b.price)}</td>`).join(""))).join("");
+  }
+  function row(m, i, cells){
+    const seam = (i === nA-1 && nA < 12) ? " seam" : "";
+    const tag = m.status === "actual"
+      ? `<span class="tag a">จริง</span>` : `<span class="tag f">ประมาณการ</span>`;
+    return `<tr class="${m.status === "forecast" ? "proj" : ""}${seam}">`
+      + `<td class="m">${MON[m.month-1]} ${String(D.year+543).slice(2)}${tag}</td>${cells}</tr>`;
+  }
+  $("tbl").className = g.kind === "cogen" ? "cogen" : "";
+  $("tbl").innerHTML = `<thead>${head}</thead><tbody>${body}</tbody>`;
+}
+</script>
+</body>
+</html>
