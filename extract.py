@@ -8,46 +8,28 @@
 ปีและเส้นแบ่ง actual/forecast คำนวณเองจากวันที่ในไฟล์ (cell B1)
 ไม่ต้องมาแก้โค้ดทุกเดือน
 """
-import argparse, json, datetime as dt, sys
+import argparse, json, os, datetime as dt, sys
 from openpyxl import load_workbook
 from openpyxl.utils import column_index_from_string as ci
 
-DATA_START_ROW = 8   # แถวแรกของข้อมูล = Jan-2025
+# ผังคอลัมน์ทั้งหมดอยู่ในไฟล์ groups.json ไม่ได้ฝังไว้ในโค้ด
+# ทำแบบนี้เพื่อให้ไฟล์ .py ของทุกโครงการ (PTTNGD / AMATANGD) เหมือนกันทุกตัวอักษร
+# ต่างกันแค่ groups.json — แก้บั๊กทีเดียวแล้วก๊อปข้ามโฟลเดอร์ได้เลย
+CONFIG_DEFAULT = "groups.json"
 
-# เดือนสุดท้ายที่ถือเป็น "ราคาจริง" = เดือนของวันที่ในไฟล์ + offset
-#   COGEN  offset 0  : Sn = 1.125 x Wellhead เดือน N-1 ซึ่งประกาศแล้ว -> เดือนปัจจุบันรู้ราคาจริง
-#   FO/LPG offset -1 : ยังต้องรอ FX เฉลี่ยของเดือนปัจจุบันจนสิ้นเดือน -> รู้จริงถึงเดือนก่อน
-ACTUAL_OFFSET = {"NGD-COGEN": 0, "NGD-FO": -1, "NGD-LPG": -1}
 
-GROUPS = [
-    {"id": "cogen_m8", "name": "Cogen ค่าท่อ (-8)", "subtitle": "Gas Turbine",
-     "sheet": "NGD-COGEN", "kind": "cogen",
-     "anchor": ("I", "(-8)"),
-     "cols": {"Cn": "K", "Sn": "L", "price": "M"}},
-
-    {"id": "cogen_p3", "name": "Cogen ค่าท่อ (+3)", "subtitle": "Gas Engine",
-     "sheet": "NGD-COGEN", "kind": "cogen",
-     "anchor": ("N", "(+3)"),
-     "cols": {"Cn": "P", "Sn": "Q", "price": "R"}},
-
-    {"id": "ngd_fo", "name": "NGD-FO", "subtitle": "อ้างอิงน้ำมันเตา",
-     "sheet": "NGD-FO", "kind": "block",
-     "cols": {"Cn": "G", "blocks": [
-         {"label": "Block 1", "Sn": "H", "price": "I"},
-         {"label": "Block 2", "Sn": "J", "price": "K"},
-         {"label": "Block 3", "Sn": "L", "price": "M"},
-         {"label": "Block 4", "Sn": "N", "price": "O"},
-         {"label": "Block 5", "Sn": "P", "price": "Q"}]}},
-
-    {"id": "ngd_lpg", "name": "NGD-LPG", "subtitle": "อ้างอิง LPG",
-     "sheet": "NGD-LPG", "kind": "block",
-     "cols": {"Cn": "H", "blocks": [
-         {"label": "Block 1", "Sn": "I", "price": "J"},
-         {"label": "Block 2", "Sn": "K", "price": "L"},
-         {"label": "Block 3", "Sn": "M", "price": "N"},
-         {"label": "Block 4", "Sn": "O", "price": "P"},
-         {"label": "Block 5", "Sn": "Q", "price": "R"}]}},
-]
+def load_config(path):
+    if not os.path.exists(path):
+        sys.exit(f"[!] ไม่เจอไฟล์ผังคอลัมน์ {path}\n"
+                 f"    ไฟล์นี้บอกว่าราคาแต่ละกลุ่มอยู่ชีทไหน คอลัมน์ไหน")
+    cfg = json.load(open(path, encoding="utf-8"))
+    for k in ("site", "actual_offset", "groups"):
+        if k not in cfg:
+            sys.exit(f"[!] {path} ขาดหัวข้อ '{k}'")
+    for g in cfg["groups"]:
+        if g.get("kind") == "cogen" and "anchor" in g:
+            g["anchor"] = tuple(g["anchor"])
+    return cfg
 
 MON = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.",
        "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."]
@@ -80,9 +62,9 @@ def check_headers(ws, g, problems):
             want(7, b["price"], "Selling price", f"{b['label']} → Selling price")
 
 
-def find_month_rows(ws, year):
+def find_month_rows(ws, year, start_row):
     rows = {}
-    for r in range(DATA_START_ROW, ws.max_row + 1):
+    for r in range(start_row, ws.max_row + 1):
         v = ws.cell(r, 1).value
         if isinstance(v, dt.datetime) and v.year == year:
             rows[v.month] = r
@@ -113,13 +95,27 @@ def main():
                     help="บังคับเส้นแบ่งราคาจริงเองทุก sheet (ปกติไม่ต้องใช้)")
     ap.add_argument("--no-check", action="store_true",
                     help="ข้ามการตรวจหัวคอลัมน์ (ใช้เมื่อรู้ตัวว่า Marketing เปลี่ยนผัง)")
+    ap.add_argument("--groups", default=CONFIG_DEFAULT,
+                    help="ไฟล์ผังคอลัมน์ (ค่าเริ่มต้น groups.json)")
     args = ap.parse_args()
+
+    cfg = load_config(args.groups)
+    GROUPS = cfg["groups"]
+    ACTUAL_OFFSET = cfg["actual_offset"]
+    site = cfg["site"]
+    start_row = site.get("data_start_row", 8)
+    date_sheet = site["date_sheet"]
+    date_cell = site.get("date_cell", "B1")
 
     wb = load_workbook(args.xlsx, data_only=True)
 
-    raw = wb["NGD-FO"]["B1"].value
+    if date_sheet not in wb.sheetnames:
+        sys.exit(f"[!] ไม่เจอชีท '{date_sheet}' ในไฟล์ Excel\n"
+                 f"    ชีทที่มีอยู่: {', '.join(wb.sheetnames)}")
+
+    raw = wb[date_sheet][date_cell].value
     if not isinstance(raw, dt.datetime):
-        sys.exit(f"[!] อ่านวันที่จาก NGD-FO!B1 ไม่ได้ (เจอ {raw!r}) "
+        sys.exit(f"[!] อ่านวันที่จาก {date_sheet}!{date_cell} ไม่ได้ (เจอ {raw!r}) "
                  f"— ระบุ --year และ --actual-through เอง")
     as_of = raw
     year = args.year or as_of.year
@@ -135,11 +131,14 @@ def main():
     problems, warnings = [], []
 
     for g in GROUPS:
+        if g["sheet"] not in wb.sheetnames:
+            problems.append(f"ไม่เจอชีท '{g['sheet']}' (ที่มี: {', '.join(wb.sheetnames)})")
+            continue
         ws = wb[g["sheet"]]
         if not args.no_check:
             check_headers(ws, g, problems)
 
-        rows = find_month_rows(ws, year)
+        rows = find_month_rows(ws, year, start_row)
         miss = [m for m in range(1, 13) if m not in rows]
         if miss:
             problems.append(f"{g['sheet']}: ไม่มีข้อมูลเดือน "
@@ -182,7 +181,7 @@ def main():
         print("\n[!] หยุด — ผังไฟล์ไม่ตรงกับที่ตั้งค่าไว้:\n", file=sys.stderr)
         for p in problems:
             print("   • " + p, file=sys.stderr)
-        print("\n   ถ้า Marketing เปลี่ยนผังจริง ให้แก้ GROUPS ที่หัวไฟล์ extract.py\n"
+        print(f"\n   ถ้า Marketing เปลี่ยนผังจริง ให้แก้ไฟล์ {args.groups}\n"
               "   ถ้ามั่นใจว่าถูกแล้ว ใช้ --no-check เพื่อข้าม\n", file=sys.stderr)
         sys.exit(1)
 

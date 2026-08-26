@@ -1,0 +1,69 @@
+{
+  "_comment": "ผังคอลัมน์ของไฟล์ Excel จาก Marketing — ถ้า Marketing ย้ายคอลัมน์ แก้ที่นี่ที่เดียว",
+  "site": {
+    "brand": "PTTNGD",
+    "date_sheet": "NGD-FO",
+    "date_cell": "B1",
+    "data_start_row": 8
+  },
+  "_actual_offset_comment": "เดือนสุดท้ายที่ถือเป็นราคาจริง = เดือนของไฟล์ + offset | COGEN 0 เพราะ Sn ใช้ Wellhead เดือน N-1 ที่ประกาศแล้ว | FO/LPG -1 เพราะยังรอ FX เฉลี่ยของเดือนปัจจุบัน",
+  "actual_offset": {
+    "NGD-COGEN": 0,
+    "NGD-FO": -1,
+    "NGD-LPG": -1
+  },
+  "groups": [
+    {
+      "id": "cogen_m8",
+      "name": "Cogen ค่าท่อ (-8)",
+      "subtitle": "Gas Turbine",
+      "sheet": "NGD-COGEN",
+      "kind": "cogen",
+      "anchor": ["I", "(-8)"],
+      "cols": { "Cn": "K", "Sn": "L", "price": "M" }
+    },
+    {
+      "id": "cogen_p3",
+      "name": "Cogen ค่าท่อ (+3)",
+      "subtitle": "Gas Engine",
+      "sheet": "NGD-COGEN",
+      "kind": "cogen",
+      "anchor": ["N", "(+3)"],
+      "cols": { "Cn": "P", "Sn": "Q", "price": "R" }
+    },
+    {
+      "id": "ngd_fo",
+      "name": "NGD-FO",
+      "subtitle": "อ้างอิงน้ำมันเตา",
+      "sheet": "NGD-FO",
+      "kind": "block",
+      "cols": {
+        "Cn": "G",
+        "blocks": [
+          { "label": "Block 1", "Sn": "H", "price": "I" },
+          { "label": "Block 2", "Sn": "J", "price": "K" },
+          { "label": "Block 3", "Sn": "L", "price": "M" },
+          { "label": "Block 4", "Sn": "N", "price": "O" },
+          { "label": "Block 5", "Sn": "P", "price": "Q" }
+        ]
+      }
+    },
+    {
+      "id": "ngd_lpg",
+      "name": "NGD-LPG",
+      "subtitle": "อ้างอิง LPG",
+      "sheet": "NGD-LPG",
+      "kind": "block",
+      "cols": {
+        "Cn": "H",
+        "blocks": [
+          { "label": "Block 1", "Sn": "I", "price": "J" },
+          { "label": "Block 2", "Sn": "K", "price": "L" },
+          { "label": "Block 3", "Sn": "M", "price": "N" },
+          { "label": "Block 4", "Sn": "O", "price": "P" },
+          { "label": "Block 5", "Sn": "Q", "price": "R" }
+        ]
+      }
+    }
+  ]
+}
