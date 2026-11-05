@@ -26,6 +26,12 @@ def series(g, year):
         k = (m.get("year", year), m["month"])
         if g["kind"] == "cogen":
             out[(k, "")] = (m["price"], m["status"])
+        elif g["kind"] == "flcl":
+            # ใช้ราคาที่ใช้จริงหลังเทียบ Floor/Ceiling · Ceiling ตัวแรกใช้ชื่อ Block ตรง ๆ
+            for b in m["blocks"]:
+                for j, cl in enumerate(g.get("ceilings", [""])):
+                    lbl = b["label"] if j == 0 else f"{b['label']} · {cl}"
+                    out[(k, lbl)] = (b["applied"][j], m["status"])
         else:
             for b in m["blocks"]:
                 out[(k, b["label"])] = (b["price"], m["status"])

@@ -68,7 +68,9 @@ def main():
 
     # ---- เข้ารหัสข้อมูลรายกลุ่ม กุญแจคนละดอก
     gkeys = {gid: os.urandom(32) for gid in used}
-    enc_groups = {gid: seal(gkeys[gid], by_id[gid]) for gid in used}
+    # ไม่ใส่ชื่อชีทลงหน้าเว็บ (ชื่อชีทบางอันมีชื่อย่อลูกค้า เช่น OGC,SGA)
+    enc_groups = {gid: seal(gkeys[gid], {k: v for k, v in by_id[gid].items() if k != "sheet"})
+                  for gid in used}
 
     meta = {k: data[k] for k in ("year", "as_of", "source_file", "unit")}
     meta["end_year"] = data.get("end_year", data["year"])

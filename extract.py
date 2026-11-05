@@ -63,6 +63,57 @@ def check_headers(ws, g, problems):
             want(6, b["Sn"], b["label"], f"หัว {b['label']}")
             want(7, b["Sn"], "Sn", f"{b['label']} → Sn")
             want(7, b["price"], "Selling price", f"{b['label']} → Selling price")
+        if g["kind"] == "flcl":
+            c = g["cols"]
+            want(6, c["floor"], "Floor", "คอลัมน์ Floor Price")
+            for cl in c["ceilings"]:
+                want(6, cl["col"], cl["must"], f"คอลัมน์ {cl['label']}")
+            for i, a in enumerate(c["apply"]):
+                want(6, a, f"Apply Block {i+1}", f"คอลัมน์ Apply Block {i+1}")
+
+
+def raw(ws, row, col):
+    """ค่าดิบไม่ปัดเศษ (ใช้เทียบกับ Floor/Ceiling)"""
+    v = ws.cell(row, ci(col)).value
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+APPLY_TAG = {"FLOOR": "FL", "CEILING": "CL"}
+
+
+def flcl_month(ws, r, g, problems, where):
+    """กลุ่ม FL-CL: ราคาตามสูตร (Block) ถ้าต่ำกว่า Floor ใช้ Floor / สูงกว่า Ceiling ใช้ Ceiling
+    ทุกตัวเลขมาจากไฟล์ — แค่เลือกว่าจะใช้ช่องไหน แล้วเทียบกับคอลัมน์ Apply Block ของ Marketing"""
+    c = g["cols"]
+    flo = raw(ws, r, c["floor"])
+    cls = [raw(ws, r, x["col"]) for x in c["ceilings"]]
+    row = {"floor": None if flo is None else round(flo, 2),
+           "ceilings": [None if x is None else round(x, 2) for x in cls], "blocks": []}
+    chk = c.get("apply_for", len(cls) - 1)       # คอลัมน์ Apply ของไฟล์อิง Ceiling ตัวไหน
+    for i, b in enumerate(c["blocks"]):
+        p = num(ws, r, b["price"])
+        blk = {"label": b["label"], "Sn": num(ws, r, b["Sn"]), "price": p,
+               "applied": [], "bound": []}
+        for cl in cls:
+            if None in (p, flo, cl):
+                blk["applied"].append(None); blk["bound"].append("")
+            elif p < flo:
+                blk["applied"].append(round(flo, 2)); blk["bound"].append("FL")
+            elif p > cl:
+                blk["applied"].append(round(cl, 2)); blk["bound"].append("CL")
+            else:
+                blk["applied"].append(p); blk["bound"].append("")
+        lab = str(ws.cell(r, ci(c["apply"][i])).value or "").strip().upper()
+        want = APPLY_TAG.get(lab, "" if lab.startswith("BLOCK") else "?")
+        if want != blk["bound"][chk]:
+            problems.append(f"{where} {b['label']}: ไฟล์บอก Apply = '{lab}' "
+                            f"แต่ราคา {p} / Floor {flo} / Ceiling {cls[chk]} ได้ "
+                            f"'{blk['bound'][chk] or 'BLOCK'}' — ตรรกะไม่ตรงกับไฟล์")
+        row["blocks"].append(blk)
+    return row
 
 
 def find_month_rows(ws, year, start_row):
@@ -177,10 +228,43 @@ def main():
         if bad:
             continue
 
-        cut = override if override is not None else \
-            cutoff(as_of, ACTUAL_OFFSET.get(g["sheet"], -1))
+        rule_cut = cutoff(as_of, ACTUAL_OFFSET.get(g["sheet"], -1))
+        cut = rule_cut
+
+        # ไฟล์รุ่นใหม่ (ตั้งแต่ พ.ย. 2026) Marketing มีคอลัมน์ Status บอกเองว่าเดือนไหน Actual
+        # ถ้าตั้ง status_col ไว้ใน groups.json -> เชื่อคอลัมน์นี้ แล้วเทียบกับกฎเดิมไว้เตือน
+        scol = cfg.get("status_col", {}).get(g["sheet"])
+        if scol:
+            head = txt(ws, 6, scol)
+            if "status" not in head.lower():
+                problems.append(f"{g['sheet']} ช่อง {scol}6: คาดว่าเป็นคอลัมน์ Status "
+                                f"แต่เจอ '{head or '(ว่าง)'}'")
+                continue
+            st = {k: str(ws.cell(r, ci(scol)).value or "").strip() for k, r in rows.items()}
+            empty = [k for k, v in st.items() if not v]
+            if empty:
+                problems.append(f"{g['sheet']}: คอลัมน์ Status ว่างที่ "
+                                + ", ".join(f"{MON[m-1]} {y}" for y, m in sorted(empty)))
+                continue
+            act = sorted(ym(y, m) for (y, m), v in st.items() if v.lower() == "actual")
+            first = ym(years[0], 1)
+            # Actual ต้องต่อเนื่องจากต้นช่วง ไม่งั้นแปลว่าไฟล์แปลก
+            if act and act != list(range(first, act[-1] + 1)):
+                problems.append(f"{g['sheet']}: Status 'Actual' ไม่ต่อเนื่อง "
+                                f"(มีเดือน Forecast แทรกระหว่าง Actual)")
+                continue
+            cut = act[-1] if act else first - 1
+            if cut != rule_cut:
+                fmt_ym = lambda c: f"{MON[c % 12]} {c // 12}"
+                warnings.append(f"{g['name']}: คอลัมน์ Status บอกราคาจริงถึง {fmt_ym(cut)} "
+                                f"แต่กฎเดิม (เดือนไฟล์ {ACTUAL_OFFSET.get(g['sheet'], -1):+d}) "
+                                f"จะได้ {fmt_ym(rule_cut)} — ใช้ตาม Status ในไฟล์")
+        if override is not None:
+            cut = override
 
         rec = {k: g[k] for k in ("id", "name", "subtitle", "sheet", "kind")}
+        if g["kind"] == "flcl":
+            rec["ceilings"] = [x["label"] for x in g["cols"]["ceilings"]]
         rec["actual_through"] = (f"{cut // 12}-{cut % 12 + 1:02d}"
                                  if cut >= ym(year, 1) else None)
         rec["months"] = []
@@ -190,7 +274,11 @@ def main():
             row = {"year": y, "month": m,
                    "status": "actual" if ym(y, m) <= cut else "forecast",
                    "Cn": num(ws, r, g["cols"]["Cn"])}
-            if g["kind"] == "cogen":
+            if g["kind"] == "flcl":
+                row.update(flcl_month(ws, r, g, problems, f"{g['sheet']} {MON[m-1]} {y}"))
+                if None in [row["floor"]] + row["ceilings"] + [b["price"] for b in row["blocks"]]:
+                    problems.append(f"{g['sheet']} {MON[m-1]} {y}: มีช่องว่างในไฟล์ต้นทาง")
+            elif g["kind"] == "cogen":
                 row["Sn"] = num(ws, r, g["cols"]["Sn"])
                 row["price"] = num(ws, r, g["cols"]["price"])
                 if None not in (row["Cn"], row["Sn"], row["price"]):
