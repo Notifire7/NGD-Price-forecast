@@ -7,7 +7,7 @@
 <title>__TITLE__</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;600&family=Noto+Sans+SC:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;600&family=Noto+Sans+SC:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#0A2429; --ink2:#16434B; --paper:#E9EDEC; --card:#FFFFFF;
@@ -19,7 +19,7 @@
 html,body{margin:0;padding:0}
 body{
   background:var(--paper); color:var(--ink);
-  font-family:"IBM Plex Sans Thai","IBM Plex Sans","Noto Sans JP","Noto Sans SC","Noto Sans Devanagari",system-ui,sans-serif;
+  font-family:"IBM Plex Sans Thai","IBM Plex Sans","Noto Sans JP","Noto Sans SC","Noto Sans KR","Noto Sans Devanagari",system-ui,sans-serif;
   font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
 }
 .mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
@@ -149,7 +149,9 @@ footer ul{margin:8px 0 0;padding-left:18px} footer li{margin:3px 0;overflow-wrap
 /* อักษรเทวนาครี/จีน/ญี่ปุ่น ห้ามถ่างตัวอักษร ไม่งั้นสระแตก */
 :lang(hi) .eyebrow,:lang(hi) .stat .k,:lang(hi) .asof .lbl,:lang(hi) thead th,:lang(hi) .tag,
 :lang(ja) .eyebrow,:lang(ja) .stat .k,:lang(ja) .asof .lbl,:lang(ja) thead th,:lang(ja) .tag,
-:lang(zh) .eyebrow,:lang(zh) .stat .k,:lang(zh) .asof .lbl,:lang(zh) thead th,:lang(zh) .tag{letter-spacing:0}
+:lang(zh) .eyebrow,:lang(zh) .stat .k,:lang(zh) .asof .lbl,:lang(zh) thead th,:lang(zh) .tag,
+:lang(ko) .eyebrow,:lang(ko) .stat .k,:lang(ko) .asof .lbl,:lang(ko) thead th,:lang(ko) .tag{letter-spacing:0}
+:lang(ko) body,:lang(ko) .langs button{word-break:keep-all}
 #gate .langs button[aria-pressed=true]{background:transparent;border-color:#2C5A61;color:#EAF2F1}
 .topbar{display:flex;justify-content:flex-end;padding-top:12px}
 .topbar + .hd{padding-top:10px}
@@ -280,13 +282,14 @@ footer ul{margin:8px 0 0;padding-left:18px} footer li{margin:3px 0;overflow-wrap
 const ENC = __ENC__;
 
 /* ---------- ภาษา: ไทย · English · 日本語 · 中文 · हिन्दी ---------- */
-const LANGS = [["th","ไทย"],["en","EN"],["ja","日本語"],["zh","中文"],["hi","हिन्दी"]];
-const LOCALE = {th:"th-TH", en:"en-GB", ja:"ja-JP", zh:"zh-CN", hi:"hi-IN"};
+const LANGS = [["th","ไทย"],["en","EN"],["ja","日本語"],["zh","中文"],["ko","한국어"],["hi","हिन्दी"]];
+const LOCALE = {th:"th-TH", en:"en-GB", ja:"ja-JP", zh:"zh-CN", ko:"ko-KR", hi:"hi-IN"};
 const MONS = {
   th:["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."],
   en:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
   ja:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
   zh:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
+  ko:["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
   hi:["जन.","फ़र.","मार्च","अप्रै.","मई","जून","जुला.","अग.","सितं.","अक्टू.","नवं.","दिसं."]
 };
 const T = {
@@ -346,6 +349,20 @@ const T = {
   avg:"{y}年平均", avgsub:"{y}年平均 {v}", last:"最新实际价格", hi:"最高", lo:"最低", fcp:"（预测）",
   month:"月份", gas:"天然气价格", sell:"销售价格", tagA:"实际", tagF:"预测", fcArrow:"预测 →",
   pipe:"Capacity Charge", gt:"燃气轮机", ge:"燃气发动机", fo:"挂钩燃料油", lpg:"挂钩液化石油气"},
+ ko:{xls:"Excel 다운로드", pdf:"PDF 보고서", rep_t:"천연가스 가격 보고서", gen:"작성일", stat:"구분", info:"정보", curview:"그래프 표시", xerr:"Excel 생성 도구를 불러오지 못해 CSV 파일(Excel에서 열 수 있음)로 대신 저장했습니다.",
+  base:"산식 가격", applied:"적용 가격", n4:"<b>FL-CL</b>: 산식 가격이 Floor(FL)보다 낮으면 Floor 가격을, Ceiling(CL)보다 높으면 Ceiling 가격을 적용합니다.",
+  gate_title:"천연가스 가격 {y}", gate_p:"데이터를 보려면 마케팅 담당자에게 받은 비밀번호를 입력하세요.",
+  pw_ph:"비밀번호", open:"보기", opening:"여는 중…", bad_pw:"비밀번호가 올바르지 않습니다. 다시 시도해 주세요.",
+  eyebrow:"천연가스 판매 가격 · {y}년", title:"가스 가격 전망 {y}", upd:"업데이트 기준일",
+  asofnote:"<b>{d}</b> 기준 데이터 — 예측 월의 가격은 이 날짜 기준의 가정에 따릅니다.",
+  asofli:"예측 수치는 <b>{d}</b> 기준의 가정을 사용합니다. 가정이 바뀌면 다음 업데이트 때 가격이 조정됩니다.",
+  src:"출처: ", show_sn:"표에 Commodity Charge 표시", actual:"실적", forecast:"예측", chart:"월별 가스 가격 그래프",
+  notes:"참고", n1:"모든 가격은 태국 바트/백만 BTU(THB/MMBTU) 단위이며 부가가치세 별도입니다.",
+  n2:"<b>실적</b>: 모든 기준값이 확정된 월. &nbsp;<b>예측</b>: 아직 예측 가정을 사용하는 월로, 수치가 변경될 수 있습니다.",
+  n3:"본 정보는 사전 계획 참고용입니다. 실제 청구 가격은 천연가스 매매 계약에 따릅니다.",
+  avg:"{y}년 평균", avgsub:"{y}년 평균 {v}", last:"최근 실적", hi:"최고", lo:"최저", fcp:" (예측)",
+  month:"월", gas:"가스 가격", sell:"판매 가격", tagA:"실적", tagF:"예측", fcArrow:"예측 →",
+  pipe:"Capacity Charge", gt:"가스터빈", ge:"가스엔진", fo:"중유 연동", lpg:"LPG 연동"},
  hi:{xls:"Excel डाउनलोड करें", pdf:"PDF रिपोर्ट", rep_t:"प्राकृतिक गैस मूल्य रिपोर्ट", gen:"तैयार करने की तिथि", stat:"स्थिति", info:"जानकारी", curview:"चार्ट में", xerr:"Excel जनरेटर लोड नहीं हो सका, इसलिए CSV फ़ाइल (Excel में खुलती है) सहेजी गई।",
   base:"सूत्र मूल्य", applied:"लागू मूल्य", n4:"<b>FL-CL</b>: यदि सूत्र मूल्य Floor (FL) से कम है तो Floor मूल्य लागू होगा; यदि Ceiling (CL) से अधिक है तो Ceiling मूल्य लागू होगा।",
   gate_title:"प्राकृतिक गैस मूल्य {y}", gate_p:"डेटा देखने के लिए हमारी मार्केटिंग टीम द्वारा दिया गया पासवर्ड दर्ज करें।",
@@ -367,7 +384,8 @@ const t = (k, v = {}) => (T[LANG][k] ?? T.th[k]).replace(/\{(\w)\}/g, (_, x) => 
 const M = () => MONS[LANG];
 // ปีตามที่แต่ละชาติคุ้น: ไทย = พ.ศ. · EN / 日本 / 中国 / भारत = ค.ศ. (งานธุรกิจของ 3 ชาตินี้ใช้ ค.ศ. เป็นหลัก)
 const yr = y => LANG === "th" ? y + 543 : y;
-const lab = d => (LANG === "ja" || LANG === "zh") ? `${d.year}年${d.month}月`
+const lab = d => LANG === "ko" ? `${d.year}년 ${d.month}월`
+  : (LANG === "ja" || LANG === "zh") ? `${d.year}年${d.month}月`
   : LANG === "th" ? MONS.th[d.month-1] + " " + String(d.year+543).slice(2)
   : M()[d.month-1] + " " + d.year;
 const fmtDate = s => { const d = new Date(s + "T00:00:00");
