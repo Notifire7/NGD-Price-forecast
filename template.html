@@ -163,6 +163,48 @@ footer ul{margin:8px 0 0;padding-left:18px} footer li{margin:3px 0;overflow-wrap
   .legend{margin-left:0;width:100%}
   .stat .v{font-size:20px}
 }
+/* ---------- export ---------- */
+.tools{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.tools button{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);padding:7px 13px;cursor:pointer;font:inherit;font-size:13px;color:var(--ink)}
+.tools button:hover{border-color:var(--firm);color:var(--firm)}
+.tools button:disabled{opacity:.5;cursor:default}
+.tools svg{width:15px;height:15px}
+#report{display:none}
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  html,body{background:#fff}
+  body > *:not(#report){display:none !important}
+  #report{display:block;color:#000;font-size:10.5px;line-height:1.4}
+  #report .rh{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:8px}
+  #report .rh .mk{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.2em;color:var(--muted)}
+  #report .rh h1{font-size:20px;margin:2px 0 0}
+  #report .rh .g{font-size:13px;font-weight:600;color:var(--firm)}
+  #report .rh .r{text-align:right;font-size:10px;color:var(--muted)}
+  #report .rh .r b{display:block;font-size:13px;color:var(--ink)}
+  #report .note{border-left:3px solid var(--firm);padding:4px 8px;margin:0 0 8px;background:#F4F8F7}
+  #report .stats{margin:0 0 8px}
+  #report .stat{padding:6px 10px}
+  #report .stat .v{font-size:16px}
+  #report .chartbox{border:1px solid var(--line);padding:6px;margin:0 0 4px;break-inside:avoid}
+  #report .cap{font-size:9px;color:var(--muted);margin:0 0 6px}
+  #report table{font-size:8px;min-width:0;width:100%;table-layout:auto}
+  #report table.cogen{width:auto;font-size:9.5px}
+  #report th,#report td{padding:2.5px 4px}
+  #report thead th{white-space:normal;font-size:7px;letter-spacing:.02em;line-height:1.25;vertical-align:bottom}
+  #report td .tag{display:none}
+  #report td.sub,#report td.price{font-size:inherit}
+  #report table.cogen td{font-size:9.5px}
+  #report tr.proj td.m::after{content:" *";color:var(--proj)}
+  #report .bnd{font-size:6.5px;padding:0 2px;margin-right:2px}
+  #report thead{display:table-header-group}
+  #report tr{break-inside:avoid}
+  #report thead th{position:static}
+  #report th.m,#report td.m{position:static}
+  #report .tablebox{border:1px solid var(--line);overflow:visible;margin:0;break-before:page}
+  #report footer{margin:10px 0 0;padding:8px 0 0;font-size:9px}
+  #report *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
 </style>
 </head>
@@ -195,6 +237,10 @@ footer ul{margin:8px 0 0;padding-left:18px} footer li{margin:3px 0;overflow-wrap
 
   <div class="wrap">
     <div class="asofnote" id="asofnote"></div>
+    <div class="tools">
+      <button id="btnxls"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1"/><path d="M2 6h12M2 10h12M6 2v12"/></svg><span data-t="xls">Excel</span></button>
+      <button id="btnpdf"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 1.5h5.5L12.5 4.5v10h-8.5z"/><path d="M9.5 1.5v3h3M6 8.5h4.5M6 11h4.5"/></svg><span data-t="pdf">PDF</span></button>
+    </div>
     <div class="stats" id="stats"></div>
 
     <div class="ctl">
@@ -228,6 +274,7 @@ footer ul{margin:8px 0 0;padding-left:18px} footer li{margin:3px 0;overflow-wrap
 </div>
 
 <div class="tip" id="tip"></div>
+<div id="report"></div>
 
 <script>
 const ENC = __ENC__;
@@ -243,7 +290,8 @@ const MONS = {
   hi:["जन.","फ़र.","मार्च","अप्रै.","मई","जून","जुला.","अग.","सितं.","अक्टू.","नवं.","दिसं."]
 };
 const T = {
- th:{base:"ราคาตามสูตร", applied:"ราคาที่ใช้", n4:"<b>FL-CL</b>: ถ้าราคาตามสูตรต่ำกว่า Floor (FL) ใช้ราคา Floor ถ้าสูงกว่า Ceiling (CL) ใช้ราคา Ceiling",
+ th:{xls:"ดาวน์โหลด Excel", pdf:"รายงาน PDF", rep_t:"รายงานราคาก๊าซธรรมชาติ", gen:"จัดทำเมื่อ", stat:"สถานะ", info:"ข้อมูล", curview:"กราฟแสดง", xerr:"โหลดตัวสร้าง Excel ไม่ได้ จึงบันทึกเป็นไฟล์ CSV แทน (เปิดใน Excel ได้)",
+  base:"ราคาตามสูตร", applied:"ราคาที่ใช้", n4:"<b>FL-CL</b>: ถ้าราคาตามสูตรต่ำกว่า Floor (FL) ใช้ราคา Floor ถ้าสูงกว่า Ceiling (CL) ใช้ราคา Ceiling",
   gate_title:"ราคาก๊าซธรรมชาติ {y}", gate_p:"กรอกรหัสผ่านที่ได้รับจากเจ้าหน้าที่การตลาดเพื่อเปิดดูข้อมูล",
   pw_ph:"รหัสผ่าน", open:"เปิดดู", opening:"กำลังเปิด…", bad_pw:"รหัสผ่านไม่ถูกต้อง ลองใหม่อีกครั้ง",
   eyebrow:"ราคาขายก๊าซธรรมชาติ · ปี {y}", title:"แนวโน้มราคาก๊าซ {y}", upd:"Update as of",
@@ -256,7 +304,8 @@ const T = {
   avg:"เฉลี่ยปี {y}", avgsub:"ปี {y} เฉลี่ย {v}", last:"ราคาจริงล่าสุด", hi:"สูงสุด", lo:"ต่ำสุด", fcp:" (ประมาณการ)",
   month:"เดือน", gas:"ราคาก๊าซ", sell:"ราคาขาย", tagA:"จริง", tagF:"ประมาณการ", fcArrow:"ประมาณการ →",
   pipe:"Capacity Charge", gt:"Gas Turbine", ge:"Gas Engine", fo:"อ้างอิงน้ำมันเตา", lpg:"อ้างอิง LPG"},
- en:{base:"Formula price", applied:"Applied price", n4:"<b>FL-CL</b>: if the formula price is below the Floor (FL), the Floor price applies; if it is above the Ceiling (CL), the Ceiling price applies.",
+ en:{xls:"Download Excel", pdf:"PDF report", rep_t:"Natural Gas Price Report", gen:"Generated", stat:"Status", info:"Info", curview:"Chart shows", xerr:"Could not load the Excel generator, so a CSV file (opens in Excel) was saved instead.",
+  base:"Formula price", applied:"Applied price", n4:"<b>FL-CL</b>: if the formula price is below the Floor (FL), the Floor price applies; if it is above the Ceiling (CL), the Ceiling price applies.",
   gate_title:"Natural Gas Price {y}", gate_p:"Enter the password provided by our marketing team to view the data.",
   pw_ph:"Password", open:"View", opening:"Opening…", bad_pw:"Incorrect password. Please try again.",
   eyebrow:"Natural gas selling price · {y}", title:"Gas Price Outlook {y}", upd:"Update as of",
@@ -269,7 +318,8 @@ const T = {
   avg:"Average {y}", avgsub:"{y} average {v}", last:"Latest actual", hi:"High", lo:"Low", fcp:" (forecast)",
   month:"Month", gas:"Gas price", sell:"Selling price", tagA:"Actual", tagF:"Forecast", fcArrow:"Forecast →",
   pipe:"Capacity Charge", gt:"Gas Turbine", ge:"Gas Engine", fo:"Fuel-oil linked", lpg:"LPG linked"},
- ja:{base:"算定価格", applied:"適用価格", n4:"<b>FL-CL</b>：算定価格がFloor（FL）を下回る場合はFloor価格、Ceiling（CL）を上回る場合はCeiling価格を適用します。",
+ ja:{xls:"Excelをダウンロード", pdf:"PDFレポート", rep_t:"天然ガス価格レポート", gen:"作成日", stat:"区分", info:"情報", curview:"グラフ表示", xerr:"Excel生成ツールを読み込めなかったため、CSVファイル（Excelで開けます）として保存しました。",
+  base:"算定価格", applied:"適用価格", n4:"<b>FL-CL</b>：算定価格がFloor（FL）を下回る場合はFloor価格、Ceiling（CL）を上回る場合はCeiling価格を適用します。",
   gate_title:"天然ガス価格 {y}", gate_p:"マーケティング担当者からお知らせしたパスワードを入力してください。",
   pw_ph:"パスワード", open:"表示", opening:"開いています…", bad_pw:"パスワードが正しくありません。もう一度お試しください。",
   eyebrow:"天然ガス販売価格 · {y}年", title:"ガス価格の見通し {y}", upd:"更新日",
@@ -282,7 +332,8 @@ const T = {
   avg:"{y}年平均", avgsub:"{y}年平均 {v}", last:"最新実績", hi:"最高", lo:"最低", fcp:"（予測）",
   month:"月", gas:"ガス価格", sell:"販売価格", tagA:"実績", tagF:"予測", fcArrow:"予測 →",
   pipe:"Capacity Charge", gt:"ガスタービン", ge:"ガスエンジン", fo:"重油連動", lpg:"LPG連動"},
- zh:{base:"公式价格", applied:"适用价格", n4:"<b>FL-CL</b>：公式价格低于 Floor（FL）时按 Floor 价格计，高于 Ceiling（CL）时按 Ceiling 价格计。",
+ zh:{xls:"下载 Excel", pdf:"PDF 报告", rep_t:"天然气价格报告", gen:"生成日期", stat:"状态", info:"信息", curview:"图表显示", xerr:"无法加载 Excel 生成工具，已改为保存 CSV 文件（可用 Excel 打开）。",
+  base:"公式价格", applied:"适用价格", n4:"<b>FL-CL</b>：公式价格低于 Floor（FL）时按 Floor 价格计，高于 Ceiling（CL）时按 Ceiling 价格计。",
   gate_title:"天然气价格 {y}", gate_p:"请输入市场部人员提供的密码以查看数据。",
   pw_ph:"密码", open:"查看", opening:"正在打开…", bad_pw:"密码错误，请重试。",
   eyebrow:"天然气销售价格 · {y}年", title:"天然气价格走势 {y}", upd:"更新日期",
@@ -295,7 +346,8 @@ const T = {
   avg:"{y}年平均", avgsub:"{y}年平均 {v}", last:"最新实际价格", hi:"最高", lo:"最低", fcp:"（预测）",
   month:"月份", gas:"天然气价格", sell:"销售价格", tagA:"实际", tagF:"预测", fcArrow:"预测 →",
   pipe:"Capacity Charge", gt:"燃气轮机", ge:"燃气发动机", fo:"挂钩燃料油", lpg:"挂钩液化石油气"},
- hi:{base:"सूत्र मूल्य", applied:"लागू मूल्य", n4:"<b>FL-CL</b>: यदि सूत्र मूल्य Floor (FL) से कम है तो Floor मूल्य लागू होगा; यदि Ceiling (CL) से अधिक है तो Ceiling मूल्य लागू होगा।",
+ hi:{xls:"Excel डाउनलोड करें", pdf:"PDF रिपोर्ट", rep_t:"प्राकृतिक गैस मूल्य रिपोर्ट", gen:"तैयार करने की तिथि", stat:"स्थिति", info:"जानकारी", curview:"चार्ट में", xerr:"Excel जनरेटर लोड नहीं हो सका, इसलिए CSV फ़ाइल (Excel में खुलती है) सहेजी गई।",
+  base:"सूत्र मूल्य", applied:"लागू मूल्य", n4:"<b>FL-CL</b>: यदि सूत्र मूल्य Floor (FL) से कम है तो Floor मूल्य लागू होगा; यदि Ceiling (CL) से अधिक है तो Ceiling मूल्य लागू होगा।",
   gate_title:"प्राकृतिक गैस मूल्य {y}", gate_p:"डेटा देखने के लिए हमारी मार्केटिंग टीम द्वारा दिया गया पासवर्ड दर्ज करें।",
   pw_ph:"पासवर्ड", open:"देखें", opening:"खुल रहा है…", bad_pw:"पासवर्ड गलत है। कृपया फिर से प्रयास करें।",
   eyebrow:"प्राकृतिक गैस विक्रय मूल्य · {y}", title:"गैस मूल्य अनुमान {y}", upd:"अपडेट की तिथि",
@@ -387,6 +439,7 @@ async function unlock(pw){
 }
 
 const $ = id => document.getElementById(id);
+const BRAND = (document.querySelector("#gate .mark") || {}).textContent || "";
 $("go").onclick = async () => {
   const btn = $("go"), pw = $("pw").value;
   if(!pw) return;
@@ -599,7 +652,118 @@ function drawChart(g){
 }
 
 /* ---------- table ---------- */
+
+/* ---------- export: Excel + รายงาน PDF (ใช้เฉพาะข้อมูลที่รหัสนี้ถอดได้) ---------- */
+const safe = s => String(s).replace(/[\\\/?*\[\]:]/g, " ").replace(/\s+/g, " ").trim();
+const stTxt = m => m.status === "actual" ? t("actual") : t("forecast");
+
+// แถวข้อมูลของกลุ่มเดียว: [หัวตาราง..., ...แถว]
+function xlsRows(g){
+  const H = [t("month"), t("stat"), "Capacity Charge"], R = [];
+  if(g.kind === "cogen"){
+    H.push("Commodity Charge", t("gas"));
+    g.months.forEach(m => R.push([lab(m), stTxt(m), m.Cn, m.Sn, m.price]));
+  }else if(g.kind === "flcl"){
+    const cn = g.ceilings || ["CL"], multi = cn.length > 1;
+    H.push("Floor (FL)", ...cn.map(c => multi ? `Ceiling (${c})` : "Ceiling (CL)"));
+    g.months[0].blocks.forEach(b => {
+      H.push(`${b.label} · Commodity Charge`, `${b.label} · ${t("base")}`);
+      cn.forEach(c => H.push(`${b.label} · ${t("applied")}${multi ? " " + c : ""}`, `${b.label} · FL/CL${multi ? " " + c : ""}`));
+    });
+    g.months.forEach(m => {
+      const r = [lab(m), stTxt(m), m.Cn, m.floor, ...m.ceilings];
+      m.blocks.forEach(b => { r.push(b.Sn, b.price); cn.forEach((_,j) => r.push(b.applied[j], b.bound[j] || "")); });
+      R.push(r);
+    });
+  }else{
+    g.months[0].blocks.forEach(b => H.push(`${b.label} · Commodity Charge`, `${b.label} · ${t("sell")}`));
+    g.months.forEach(m => R.push([lab(m), stTxt(m), m.Cn, ...m.blocks.flatMap(b => [b.Sn, b.price])]));
+  }
+  return [H, ...R];
+}
+function infoRows(g){
+  const yrs = D.end_year > D.year ? yr(D.year) + "–" + yr(D.end_year) : "" + yr(D.year);
+  const strip = h => h.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ");
+  const rows = [[BRAND], [t("title", {y: yrs})], [], [t("upd"), fmtDate(D.as_of)], ["Unit", D.unit + " (excl. VAT)"],
+    [t("src").replace(/[:：]\s*$/, ""), D.source_file], [t("gen"), fmtDate(new Date().toISOString().slice(0,10))], []];
+  ["asofli","n1","n2"].concat(D.groups.some(x => x.kind === "flcl") ? ["n4"] : []).concat(["n3"])
+    .forEach(k => rows.push([strip(t(k, {d: fmtDate(D.as_of)}))]));
+  return rows;
+}
+const fileStem = () => `${BRAND || "Gas"}_${D.groups.length === 1 ? safe(gname(D.groups[0])).replace(/\s/g,"") + "_" : ""}asof_${D.as_of}`;
+
+let xlsxLib = null;
+function loadXlsx(){
+  if(window.XLSX) return Promise.resolve(window.XLSX);
+  return xlsxLib || (xlsxLib = new Promise((ok, no) => {
+    const sc = document.createElement("script");
+    sc.src = "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
+    sc.onload = () => window.XLSX ? ok(window.XLSX) : no(new Error("no XLSX"));
+    sc.onerror = () => { xlsxLib = null; no(new Error("load failed")); };
+    document.head.appendChild(sc);
+  }));
+}
+function saveBlob(blob, name){
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+async function exportExcel(){
+  const btn = $("btnxls"); btn.disabled = true;
+  try{
+    const X = await loadXlsx(), wb = X.utils.book_new(), used = new Set();
+    const ws0 = X.utils.aoa_to_sheet(infoRows()); ws0["!cols"] = [{wch:28},{wch:60}];
+    X.utils.book_append_sheet(wb, ws0, safe(t("info")).slice(0,31));
+    D.groups.forEach(g => {
+      const rows = xlsRows(g), ws = X.utils.aoa_to_sheet(rows);
+      ws["!cols"] = rows[0].map((h,i) => ({wch: i === 0 ? 12 : Math.max(10, Math.min(28, String(h).length + 2))}));
+      ws["!freeze"] = {xSplit: 1, ySplit: 1};
+      Object.keys(ws).forEach(k => { const c = ws[k]; if(c && c.t === "n") c.z = "#,##0.00"; });
+      let name = safe(gname(g)).slice(0,31), n = 2;
+      while(used.has(name)) name = safe(gname(g)).slice(0,28) + " " + n++;
+      used.add(name); X.utils.book_append_sheet(wb, ws, name);
+    });
+    X.writeFile(wb, fileStem() + ".xlsx");
+  }catch(e){
+    // สำรอง: CSV ของกลุ่มที่เปิดอยู่ (มี BOM ให้ Excel อ่านภาษาไทยถูก)
+    const g = D.groups[gi], q = v => v == null ? "" : /[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g,'""')}"` : v;
+    const csv = infoRows().concat([[]], xlsRows(g)).map(r => r.map(q).join(",")).join("\r\n");
+    saveBlob(new Blob(["﻿" + csv], {type: "text/csv;charset=utf-8"}), fileStem() + ".csv");
+    alertBox(t("xerr"));
+  }
+  btn.disabled = false;
+}
+function alertBox(msg){
+  const n = $("asofnote"), old = n.innerHTML; n.innerHTML = msg;
+  setTimeout(() => { n.innerHTML = old; }, 6000);
+}
+function exportPdf(){
+  const g = D.groups[gi], yrs = D.end_year > D.year ? yr(D.year) + "–" + yr(D.end_year) : "" + yr(D.year);
+  const tb = buildTable(g), asofTxt = fmtDate(D.as_of);
+  const view = g.kind === "cogen" ? "" : `${t("curview")}: ${g.months[0].blocks[bi].label}`
+    + (g.kind === "flcl" && (g.ceilings||[]).length > 1 ? " · " + g.ceilings[ci] : "");
+  const notes = [...document.querySelectorAll("footer li")].filter(li => !li.classList.contains("hidden"))
+    .map(li => `<li>${li.innerHTML}</li>`).join("");
+  $("report").innerHTML = `
+    <div class="rh"><div><div class="mk">${BRAND}</div><h1>${t("title", {y: yrs})}</h1><div class="g">${gname(g)}${gsub(g) ? " · " + gsub(g) : ""}</div></div>
+      <div class="r">${t("upd")}<b>${asofTxt}</b>${D.unit} · ${t("gen")} ${fmtDate(new Date().toISOString().slice(0,10))}</div></div>
+    <div class="note">${t("asofnote", {d: asofTxt})}</div>
+    <div class="stats">${$("stats").innerHTML}</div>
+    <div class="chartbox">${$("chart").outerHTML.replace('id="chart"', "")}</div>
+    <div class="cap">${[view, `— ${t("actual")}  - - ${t("forecast")}`, `* = ${t("forecast")}`].filter(Boolean).join(" · ")}</div>
+    <footer><b>${t("notes")}</b><ul>${notes}</ul></footer>
+    <div class="tablebox"><table class="${tb.cls}">${tb.html}</table></div>`;
+  const old = document.title; document.title = fileStem();
+  setTimeout(() => { window.print(); document.title = old; }, 50);
+}
+$("btnxls").onclick = exportExcel;
+$("btnpdf").onclick = exportPdf;
+
 function drawTable(g){
+  const r = buildTable(g);
+  $("tbl").className = r.cls;
+  $("tbl").innerHTML = r.html;
+}
+function buildTable(g){
   const nA = g.months.filter(m => m.status === "actual").length, n = g.months.length;
   const sn = $("showsn").checked;
   let head, body;
@@ -640,8 +804,7 @@ function drawTable(g){
     return `<tr class="${m.status === "forecast" ? "proj" : ""}${seam}${yb}">`
       + `<td class="m">${lab(m)}${tag}</td>${cells}</tr>`;
   }
-  $("tbl").className = g.kind === "cogen" ? "cogen" : "";
-  $("tbl").innerHTML = `<thead>${head}</thead><tbody>${body}</tbody>`;
+  return {cls: g.kind === "cogen" ? "cogen" : "", html: `<thead>${head}</thead><tbody>${body}</tbody>`};
 }
 </script>
 </body>
